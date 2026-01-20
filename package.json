@@ -1,0 +1,21 @@
+{
+  "name": "swapi",
+  "version": "1.0.0",
+  "description": "api to connect to the web app from antonio ibarra",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/server",
+    "dev": "nodemon ./bin/server"
+  },
+  "keywords": [],
+  "author": "Antonio",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "express": "^5.2.1",
+    "mongoose": "^8.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
