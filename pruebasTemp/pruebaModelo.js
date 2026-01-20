@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Film = require("./models/films.model");
+const Film = require("../models/films.model");
 
 (async () => {
   try {
