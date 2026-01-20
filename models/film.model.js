@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const filmSchema = new Schema({
   //name: { type: String, required: true, maxlenght:15, enum: ['ibarra','fernandez','gonzales'] },
-  filmName: { type: String, required: true },
+  title: { type: String, required: true },
   director: { type: String, required: true },
   productor: { type: String, required: true },
 },{
@@ -11,4 +11,4 @@ const filmSchema = new Schema({
     timestamps: true
 });
 //es el que nos relaciona el nombre de la coleccion en la BD con nuestro Schema de arriba ("films")
-module.exports = mongoose.model('films', filmSchema);
+module.exports = mongoose.model('Film', filmSchema);
