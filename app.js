@@ -9,6 +9,7 @@ app.use(express.urlencoded({extended:true}));
 
 app.use(require('./routes'));
 
+//ESTO NO DEBE IR AQUI ENTONCES VERDAD
 app.get('/', (req,res)=>{
     res.send('Todo Ok, funciona');
 });
