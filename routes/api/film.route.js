@@ -12,4 +12,9 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post('/',  (req,res)=>{
+  res.json('Texto Random');
+})
+
 module.exports = router;
+ 

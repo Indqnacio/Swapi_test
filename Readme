@@ -1,0 +1,20 @@
+Al descargar el repositorio ejecutar 
+    --npm install
+    con esto tendras las librerias instaladas
+
+para empezar a ejecutar el servicio de la API usar
+ --npm run dev
+
+Para ejecutar las pruebas ejecutar
+ --npm test
+
+Estare usando el puerto
+    27017
+
+la BD se llamara swapiTest
+    conectarse a ella con  
+    use swapiTest
+        //! debe ser con minusculas
+        
+    luego ejecutar para poder ver los registros:
+    db.[COLECCION_A_BUSCAR].find()   ej.Films
