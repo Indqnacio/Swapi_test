@@ -6,8 +6,10 @@ const specieSchema = new Schema(
     name: { type: String, required: true },
     classification: { type: String, required: true },
     designation: { type: String },
-    averageHeight: { type: Number }, //cm
-    averageLifeSpan: { type: Number }, //years                    //?Como se podria obtener un promedio
+
+    //? debe ser promedio asi que cada vez que se Up,In o Del se modificara, asi tendremos el resultado final en teoria
+    averageHeight: { type: Number },    //cm
+    averageLifeSpan: { type: Number },  //years                    //?Como se podria obtener un promedio
 
     eyeColors: [{ type: String }],
     hairColor: [{ type: String }],
@@ -17,11 +19,11 @@ const specieSchema = new Schema(
 
     homeworld: {
       type: Schema.Types.ObjectId,
-      ref: "Homeworld",
+      ref: "Planet",
     }, 
   },
   {
     timestamps: true,
   },
 );
-module.exports = mongoose.model("Specie", specieSchema);
+module.exports = mongoose.model("Species", specieSchema);

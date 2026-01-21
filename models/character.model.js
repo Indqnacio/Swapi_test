@@ -7,9 +7,11 @@ const characterSchema = new Schema(
     birthDay: { type: String },
     eyeColor: { type: String },
     gender: { type: String },
+
     hairColor: [{ type: String }],
     mass: [{ type: Number }],
     skinColor: [{ type: String }],
+    
     //Relaciones
     homeworld: {type: Schema.Types.ObjectId,ref: "Homeworld",},
     films: [{ type: Schema.Types.ObjectId, ref: "Films" }],
