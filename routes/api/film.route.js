@@ -12,9 +12,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post('/',  (req,res)=>{
-  res.json('Texto Random');
-})
+router.post("/", async (req, res) => {
+  try {
+    const newFilm = await Film.create(req.body);
+    res.json(newFilm);
+  } catch (error) {
+    res.status(500).json({ error: "Ha ocurrido un error" });
+  }
+});
 
 module.exports = router;
- 
