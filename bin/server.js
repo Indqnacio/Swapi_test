@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const http = require('http');
 const app = require('../app');
 
@@ -8,3 +9,4 @@ server.listen(3000);
 server.on('listening', ()=>{
     console.log('El servidor esta escuchando en el puerto 3000')
 })
+

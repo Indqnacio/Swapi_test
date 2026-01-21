@@ -3,7 +3,7 @@ const Film = require("../models/films.model");
 
 (async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/swapiTest");
+    await mongoose.connect("mongodb://127.0.0.1:27017/films");
     const newFilm = await Film.create({
       filmName: "prueba la pelicula",
       director: "Antonio Ibarra",
