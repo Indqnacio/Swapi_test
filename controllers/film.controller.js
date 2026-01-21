@@ -1,11 +1,46 @@
-// controllers/film.controller.js
-const Film = require('../models/film.model');
+const Film = require("../models/film.model");
 
-exports.getAllFilms = async (req, res) => {
+exports.getFilmById = async (req, res) => {
   try {
-    const films = await Film.find();
-    res.json(films);
+    const film = await Film.findById(req.params.id);
+    res.json(film);
   } catch (err) {
-    res.status(500).json({ error: 'Error obteniendo films' });
+    res.status(404).json({ error: 'Film no encontrado' });
   }
 };
+
+//no se todavia como pero tengo que hacer que obtenga 10 chars
+//y que lo haga de modo ordenado
+//talvez lo ideal sea ordenado alphabeticamente
+exports.postFilm = async (req, res) => {
+  try {
+    const newFilm = await Film.create(req.body);
+    res.status(201).json(newFilm);
+  } catch (error) {
+    res.status(500).json({ error: "Ha ocurrido un error al insertar el film" });
+  }
+};
+
+exports.editFilm = async (req, res) => {
+  try {
+    const film = await Film.findByIdAndUpdate(
+        req.params.id, 
+        req.body,
+         { new: true }
+        );
+        res.json(film);
+  } catch (error) {
+    res.status(500).json({ error: "Ha ocurrido un error al editar el film" });
+  }
+};
+
+exports.deleteFilm = async (req, res) => {
+  try {
+    const delFilm = await Film.findByIdAndDelete(req.params.id);
+    res.json({ message: "film eliminado" });
+  } catch (error) {
+    res.status(500).json({ error: "Ha ocurrido un error al borrar el film" });
+  }
+};
+
+

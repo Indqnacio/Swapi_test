@@ -1,11 +1,12 @@
+ 
+### Recuperar todos los registros
 GET /api/
-Recuperar todos los registros
 
+### Crea un registro
 POST /api/trips
-Crea un registro
 
+### Actualiza un registro
 PUT /api/test/ID
-Actualiza un registro
 
+### Borra un registro
 DELETE /api/test/ID
-Borra un registro
