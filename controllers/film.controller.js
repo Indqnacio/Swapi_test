@@ -13,6 +13,16 @@ exports.getFilmById = async (req, res) => {
   }
 };
 
+exports.getFilmByNameId = async (req, res) => {
+  try {
+    const film = await Film.find({}, { _id: 1, title: 1 });
+
+    res.json(film);
+  } catch (err) {
+    res.status(404).json({ error: "Film no encontrado" });
+  }
+};
+
 //no se todavia como pero tengo que hacer que obtenga 10 chars
 //y que lo haga de modo ordenado
 //talvez lo ideal sea ordenado alphabeticamente
