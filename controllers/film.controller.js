@@ -13,7 +13,7 @@ exports.getFilmById = async (req, res) => {
   }
 };
 
-exports.getFilmByNameId = async (req, res) => {
+exports.getFilmsSelect = async (req, res) => {
   try {
     const film = await Film.find({}, { _id: 1, title: 1 });
 
@@ -25,15 +25,16 @@ exports.getFilmByNameId = async (req, res) => {
 
 //no se todavia como pero tengo que hacer que obtenga 10 chars
 //y que lo haga de modo ordenado
-//talvez lo ideal sea ordenado alphabeticamente
+
 exports.getFilmPage = async (req, res) => {
   const page = Number(req.query.page) || 1;
   const limit = 10;
   try {
     const films = await Film.find()
-      .skip((page + 1) * limit)
+      .sort({ title: 1 })
+      .skip((page - 1) * limit)
       .limit(limit);
-      
+
     res.json(films);
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error al insertar el film" });
@@ -66,5 +67,14 @@ exports.deleteFilm = async (req, res) => {
     res.json({ message: "film eliminado" });
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error al borrar el film" });
+  }
+};
+
+exports.getFilmsFromSWAPI = async (req, res) => {
+  try {
+    const film = await Film.findById(req.params.id);
+    res.json(film);
+  } catch (err) {
+    res.status(404).json({ error: "Film no encontrado" });
   }
 };
