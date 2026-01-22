@@ -11,8 +11,7 @@ app.use(require('./routes'));
 
 //endpoint health check
 app.get('/', (req,res)=>{
-    res.send('Todo Ok, funciona');
+    res.send('Hola desde home page');
 });
-
 
 module.exports = app;
