@@ -29,13 +29,13 @@ exports.editStarShip = async (req, res) => {
         runValidators: true,
       },
     );
-    res.status(200).json(starShipEdited);
-
+    starShipEdited.map
     if (!starShipEdited) {
       return res
-        .status(404)
-        .json({ error: "La Nave Espacial no fue encontrada" });
+      .status(404)
+      .json({ error: "La Nave Espacial no fue encontrada" });
     }
+    res.status(200).json(starShipEdited);
   } catch (error) {
     res
       .status(500)
@@ -82,7 +82,7 @@ exports.getStarShipPage = async (req, res) => {
 exports.getStarShipSelect = async (req, res) => {
   try {
     const starShip = await StarShip.find({}, { _id: 1, name: 1 });
-    res.json(starShip);
+    res.status(200).json(starShip);
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }
@@ -91,14 +91,14 @@ exports.getStarShipSelect = async (req, res) => {
 //! FALTA QUITAR LAS FECHAS, se me olvido
 exports.getStarShipById = async (req, res) => {
   try {
-    const specie = await Specie.findById(req.params.id);
-    if (!specie) {
+    const starShip = await StarShip.findById(req.params.id);
+    if (!starShip) {
       return res
         .status(404)
         .json({ error: "La Nave espacial no fue encontrada" });
     }
 
-    res.json(specie);
+    res.status(200).json(starShip);
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }

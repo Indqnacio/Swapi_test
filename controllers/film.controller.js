@@ -68,7 +68,7 @@ exports.getFilmPage = async (req, res) => {
         .json({ error: "Los planetas no fueron encontrados" });
     }
 
-    res.json(films);
+    res.status(200).json(films);
   } catch (error) {
     res
       .status(500)
@@ -100,6 +100,7 @@ exports.editFilm = async (req, res) => {
     const film = await Film.findByIdAndUpdate(req.params.id, cleanBody, {
       new: true,
       runValidators: true,
+      //! select: "-createdAt -updatedAt -__v",
     });
     
     res.status(200).json(response);
