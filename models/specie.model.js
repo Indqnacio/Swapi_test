@@ -11,7 +11,7 @@ const specieSchema = new Schema(
     averageHeight: { type: Number },    //cm
     averageLifeSpan: { type: Number },  //years                    //?Como se podria obtener un promedio
 
-    eyeColors: [{ type: String }],
+    eyeColor: [{ type: String }],
     hairColor: [{ type: String }],
     skinColor: [{ type: String }],
 

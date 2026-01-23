@@ -1,4 +1,4 @@
-const StarShip = require("../models/specie.model");
+const StarShip = require("../models/starShip.model");
 const typeModule = "StarShip";
 const limitPage = 10;
 
@@ -32,7 +32,9 @@ exports.editStarShip = async (req, res) => {
     res.status(200).json(starShipEdited);
 
     if (!starShipEdited) {
-      return res.status(404).json({ error: "La Nave Espacial no fue encontrada" });
+      return res
+        .status(404)
+        .json({ error: "La Nave Espacial no fue encontrada" });
     }
   } catch (error) {
     res
@@ -46,7 +48,9 @@ exports.deleteStarShip = async (req, res) => {
     const delStarShip = await StarShip.findByIdAndDelete(req.params.id);
 
     if (!delStarShip) {
-      return res.status(404).json({ error: "La Nave Espacial no fue encontrado" });
+      return res
+        .status(404)
+        .json({ error: "La Nave Espacial no fue encontrado" });
     }
 
     res.status(200).json({ message: "La Nave Espacial ha sido eliminada" });
@@ -61,12 +65,11 @@ exports.getStarShipPage = async (req, res) => {
   const page = Number(req.query.page) || 1;
 
   try {
-    const starShip
-     = await StarShip.find()
+    const starShip = await StarShip.find()
       .sort({ name: 1 })
       .skip((page - 1) * limitPage)
       .limit(limitPage);
-starShip
+    starShip;
     res.status(200).json(starShip);
   } catch (error) {
     res
@@ -80,16 +83,21 @@ exports.getStarShipSelect = async (req, res) => {
   try {
     const starShip = await StarShip.find({}, { _id: 1, name: 1 });
     res.json(starShip);
-    
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }
 };
 
 //! FALTA QUITAR LAS FECHAS, se me olvido
-exports.getSpecieById = async (req, res) => {
+exports.getStarShipById = async (req, res) => {
   try {
     const specie = await Specie.findById(req.params.id);
+    if (!specie) {
+      return res
+        .status(404)
+        .json({ error: "La Nave espacial no fue encontrada" });
+    }
+
     res.json(specie);
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });

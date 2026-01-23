@@ -6,10 +6,8 @@ const limitPage = 10;
 //Este solo devuelve el nombre y id
 exports.getPlanetSelect = async (req, res) => {
   try {
-
     const planet = await Planet.find({}, { _id: 1, name: 1 });
     res.json(planet);
-    
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }
@@ -30,19 +28,24 @@ exports.getPlanetPage = async (req, res) => {
 
   try {
     const planets = await Planet.find()
-      .sort({ title: 1 })
+      .sort({ name: 1 })
       .skip((page - 1) * limitPage)
       .limit(limitPage);
 
-    if (!planetEdited) {
-      return res.status(404).json({ error: "El planeta no fue encontrado" });
+    if (!planets) {
+      return res
+        .status(404)
+        .json({ error: "Los planetas no fueron encontrados" });
     }
 
     res.json(planets);
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Ha ocurrido un error al insertar el " + typeModule });
+      .json({
+        error:
+          "Ha ocurrido un error al obtener la informacion de " + typeModule,
+      });
   }
 };
 

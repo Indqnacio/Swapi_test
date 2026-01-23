@@ -2,8 +2,8 @@ const router = require("express").Router();
 const planetController = require('../../controllers/planet.controller');
 
 
-router.get('/select', planetController.getPlanetSelect);
 router.get('/', planetController.getPlanetPage);
+router.get('/select', planetController.getPlanetSelect);
 router.get('/:id', planetController.getPlanetById);
 
 router.post('/',planetController.postPlanet);

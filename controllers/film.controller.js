@@ -24,11 +24,9 @@ exports.getAll = async (req, res) => {
 
     res.json(films);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Ha ocurrido un error al insertar un nuevo " + limitPage,
-      });
+    res.status(500).json({
+      error: "Ha ocurrido un error al insertar un nuevo " + limitPage,
+    });
   }
 };
 
@@ -46,7 +44,9 @@ exports.getFilmsSelect = async (req, res) => {
     const film = await Film.find({}, { _id: 1, title: 1 });
     res.json(film);
   } catch (err) {
-    res.status(404).json({ error: typeModule + " no encontrado, el error es"+ err });
+    res
+      .status(404)
+      .json({ error: typeModule + " no encontrado, el error es" + err });
   }
 };
 
@@ -62,6 +62,12 @@ exports.getFilmPage = async (req, res) => {
       .skip((page - 1) * limitPage)
       .limit(limitPage);
 
+    if (!planets) {
+      return res
+        .status(404)
+        .json({ error: "Los planetas no fueron encontrados" });
+    }
+
     res.json(films);
   } catch (error) {
     res
@@ -76,11 +82,9 @@ exports.postFilm = async (req, res) => {
     const newFilm = await Film.create(req.body);
     res.status(201).json(newFilm);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Ha ocurrido un error al insertar un nuevo " + typeModule,
-      });
+    res.status(500).json({
+      error: "Ha ocurrido un error al insertar un nuevo " + typeModule,
+    });
   }
 };
 
@@ -92,11 +96,14 @@ exports.editFilm = async (req, res) => {
     });
     res.status(200).json(film);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Ha ocurrido un error con " + typeModule+ " con id " + req.params.id + " al ser editado",
-      });
+    res.status(500).json({
+      error:
+        "Ha ocurrido un error con " +
+        typeModule +
+        " con id " +
+        req.params.id +
+        " al ser editado",
+    });
   }
 };
 
@@ -105,12 +112,14 @@ exports.deleteFilm = async (req, res) => {
     const delFilm = await Film.findByIdAndDelete(req.params.id);
     res.json({ message: "film eliminado" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error:
-          "Ha ocurrido un error con " + typeModule + " con id " + req.params.id + " al ser borrado",
-      });
+    res.status(500).json({
+      error:
+        "Ha ocurrido un error con " +
+        typeModule +
+        " con id " +
+        req.params.id +
+        " al ser borrado",
+    });
   }
 };
 
