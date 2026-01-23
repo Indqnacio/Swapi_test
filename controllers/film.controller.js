@@ -8,6 +8,14 @@ const limitPage = 2;
 
 //ESTE ES SOLO PARA PRUEBAS
 exports.getAll = async (req, res) => {
+  /* UN METODO ASI ME PODRIA SERVIR SI NECESITO EL NUMERO TOTAL DE DOCUMENTOS 
+  const [total, films] = await Promise.all([
+  Film.countDocuments(),
+  Film.find()
+    .skip((page - 1) * limitPage)
+    .limit(limitPage)
+    ]);
+  */
   try {
     const films = await Film.find()
       .sort({ title: 1 })
