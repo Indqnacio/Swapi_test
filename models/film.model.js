@@ -8,7 +8,14 @@ const filmSchema = new Schema({
   productor: { type: String, required: true },
 },{
     //con esto creamos un created y updated date
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+      transform: (_, response) => {
+        delete response.createdAt;
+        delete response.updatedAt;
+        delete response.__v
+      },
+    }
 });
 //es el que nos relaciona el nombre de la coleccion en la BD con nuestro Schema de arriba ("films")
 module.exports = mongoose.model('Film', filmSchema);

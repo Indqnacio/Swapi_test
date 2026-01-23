@@ -4,7 +4,7 @@
 //*body
 const Film = require("../models/film.model");
 const typeModule = "Film";
-const limitPage = 2;
+const limitPage = 10;
 
 //ESTE ES SOLO PARA PRUEBAS
 exports.getAll = async (req, res) => {
@@ -62,7 +62,7 @@ exports.getFilmPage = async (req, res) => {
       .skip((page - 1) * limitPage)
       .limit(limitPage);
 
-    if (!planets) {
+    if (!films) {
       return res
         .status(404)
         .json({ error: "Los planetas no fueron encontrados" });
@@ -72,7 +72,13 @@ exports.getFilmPage = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Ha ocurrido un error al insertar el " + typeModule });
+      .json({
+        error:
+          "Ha ocurrido un error al obtener la informacion de la pagina " +
+          page +
+          " de el " +
+          typeModule,
+      });
   }
 };
 
@@ -93,8 +99,10 @@ exports.editFilm = async (req, res) => {
     const { createdAt, updatedAt, __v, ...cleanBody } = req.body;
     const film = await Film.findByIdAndUpdate(req.params.id, cleanBody, {
       new: true,
+      runValidators: true,
     });
-    res.status(200).json(film);
+    
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({
       error:

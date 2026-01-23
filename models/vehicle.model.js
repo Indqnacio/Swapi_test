@@ -11,6 +11,13 @@ const vehicleSchema = new Schema({
   weightCapacity: { type: Number },                   //? como se muestra en kilos
   consumables: {type:String },
 },{
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+      transform: (_, response) => {
+        delete response.createdAt;
+        delete response.updatedAt;
+        delete response.__v
+      },
+    }
 });
 module.exports = mongoose.model('Vehicle', vehicleSchema);

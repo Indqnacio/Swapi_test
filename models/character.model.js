@@ -11,9 +11,9 @@ const characterSchema = new Schema(
     hairColor: [{ type: String }],
     mass: [{ type: Number }],
     skinColor: [{ type: String }],
-    
+
     //Relaciones
-    homeworld: {type: Schema.Types.ObjectId,ref: "Homeworld",},
+    homeworld: { type: Schema.Types.ObjectId, ref: "Homeworld" },
     films: [{ type: Schema.Types.ObjectId, ref: "Films" }],
     species: [{ type: Schema.Types.ObjectId, ref: "Species" }],
     starships: [{ type: Schema.Types.ObjectId, ref: "Starship" }],
@@ -21,6 +21,13 @@ const characterSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_, response) => {
+        delete response.createdAt;
+        delete response.updatedAt;
+        delete response.__v;
+      },
+    },
   },
 );
 module.exports = mongoose.model("Charcter", characterSchema);

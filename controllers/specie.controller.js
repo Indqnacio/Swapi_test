@@ -32,11 +32,12 @@ exports.editSpecie = async (req, res) => {
         runValidators: true,
       },
     );
-    res.status(200).json(specieEdited);
 
     if (!specieEdited) {
       return res.status(404).json({ error: "La especie no fue encontrado" });
     }
+
+    res.status(200).json(response);
   } catch (error) {
     res
       .status(500)
@@ -63,25 +64,22 @@ exports.deleteSpecie = async (req, res) => {
 //obtienes 10 species por pagina
 exports.getSpeciePage = async (req, res) => {
   const page = Number(req.query.page) || 1;
-  /* UN METODO ASI ME PODRIA SERVIR SI NECESITO EL NUMERO TOTAL
-  const [total, species] = await Promise.all([
-  Specie.countDocuments(),
-  Specie.find()
-    .skip((page - 1) * limitPage)
-    .limit(limitPage)
-    ]);
-  */
+
   try {
     const specie = await Specie.find()
+      //.select("-createdAt -updatedAt -__v")
       .sort({ name: 1 })
       .skip((page - 1) * limitPage)
       .limit(limitPage);
+    res.status(200).json(specie);
 
-    res.json(specie);
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Ha ocurrido un error al insertar la " + typeModule });
+      .json({
+        error:
+          "Ha ocurrido un error al obtener la informacion de la " + typeModule,
+      });
   }
 };
 
@@ -90,7 +88,6 @@ exports.getSpecieSelect = async (req, res) => {
   try {
     const specie = await Specie.find({}, { _id: 1, name: 1 });
     res.json(specie);
-    
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }

@@ -24,6 +24,12 @@ const specieSchema = new Schema(
   },
   {
     timestamps: true,
-  },
-);
+    toJSON: {
+      transform: (_, response) => {
+        delete response.createdAt;
+        delete response.updatedAt;
+        delete response.__v
+      },
+    }
+  },);
 module.exports = mongoose.model("Species", specieSchema);
