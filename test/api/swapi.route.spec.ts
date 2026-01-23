@@ -50,7 +50,7 @@ describe('pruebas sobre la API de test', () => {
         it('la ruta funciona almneos', async () => {
             const response = await request(app).post('/api/films/').send(newFilm);
 
-            expect(response.status).toBe(200);
+            expect(response.status).toBe(201);
             expect(response.headers['content-type']).toContain('json')
         })
 

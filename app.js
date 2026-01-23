@@ -1,3 +1,7 @@
+/*
+me falta entender al 100%
+pero este redirecciona a las rutas
+*/
 const express = require('express');
 
 const app = express();

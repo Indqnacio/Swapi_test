@@ -1,3 +1,7 @@
+/*
+Este se conecta con la BD y inicia el servidor
+*/
+
 const mongoose = require("mongoose");
 const http = require("http");
 const app = require("../app");

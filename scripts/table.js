@@ -1,3 +1,8 @@
+/*
+* Solo lo usaremos para mostrar info de la tabla que ocupemos
+* Luego pongo el resto de endpoints
+*/
+
 const mongoose = require("mongoose");
 const Film = require("../models/film.model");
 
