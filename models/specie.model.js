@@ -17,6 +17,7 @@ const specieSchema = new Schema(
 
     language: { type: String },
 
+    homeworldName : { type: String },
     homeworld: {
       type: Schema.Types.ObjectId,
       ref: "Planet",
@@ -33,4 +34,7 @@ const specieSchema = new Schema(
       },
     }
   },);
+
+specieSchema.index({ name: 1 }, { unique: true })
+
 module.exports = mongoose.model("Species", specieSchema);

@@ -1,6 +1,6 @@
 //imports
 const pick = require("../scripts/picks.js");
-const StarShip = require("../models/starShip.model");
+const StarShip = require("../models/starship.model");
 const allowedFields = require("../config/starship.allowFields.js");
 //const locales
 const typeModule = "StarShip";
@@ -12,6 +12,13 @@ exports.postStarShip = async (req, res) => {
     const newStarShip = await StarShip.create(cleanBody);
     res.status(201).json(newStarShip);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        error: "La Nave Espacial ya existe",
+        duplicatedFields: error.keyValue,
+      });
+    }
+
     res.status(500).json({
       error:
         "Ha ocurrido un error al insertar la " +
@@ -41,6 +48,12 @@ exports.editStarShip = async (req, res) => {
     }
     res.status(200).json(starShipEdited);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        error: "La Nave Espacial ya existe",
+        duplicatedFields: error.keyValue,
+      });
+    }
     res
       .status(500)
       .json({ error: "Ha ocurrido un error al editar la " + typeModule });
@@ -67,7 +80,6 @@ exports.deleteStarShip = async (req, res) => {
 
 exports.getStarShipPage = async (req, res) => {
   const page = Number(req.query.page) || 1;
-
   try {
     const starShip = await StarShip.find()
       .sort({ name: 1 })
@@ -92,7 +104,6 @@ exports.getStarShipSelect = async (req, res) => {
   }
 };
 
-//! FALTA QUITAR LAS FECHAS, se me olvido
 exports.getStarShipById = async (req, res) => {
   try {
     const starShip = await StarShip.findById(req.params.id);

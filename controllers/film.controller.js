@@ -67,6 +67,7 @@ exports.postFilm = async (req, res) => {
     if (error.code === 11000) {
       return res.status(409).json({
         error: "La pelicula ya existe",
+        duplicatedFields: error.keyValue,
       });
     }
     res.status(500).json({
@@ -91,6 +92,7 @@ exports.editFilm = async (req, res) => {
     if (error.code === 11000) {
       return res.status(409).json({
         error: "Ese nombre de la pelicula ya existe",
+        duplicatedFields: error.keyValue,
       });
     }
     res.status(500).json({

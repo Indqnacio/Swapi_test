@@ -1,5 +1,9 @@
 //la ruta del model
 const Specie = require("../models/specie.model");
+const Homeworld = require("../models/planet.model.js")
+const allowedFields = require("../config/specie.allowFields.js");
+const pick = require("../scripts/picks.js");
+
 //solo lo usamos para ponerlo en texto
 const typeModule = "Specie";
 //es el ritmo de la paginacion
@@ -7,9 +11,16 @@ const limitPage = 30;
 
 exports.postSpecie = async (req, res) => {
   try {
-    const newSpecie = await Specie.create(req.body);
+    const cleanBody = pick(req.body, allowedFields);
+    const newSpecie = await Specie.create(cleanBody);
     res.status(201).json(newSpecie);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        error: "La especie ya existe",
+        duplicatedFields: error.keyValue,
+      });
+    }
     res.status(500).json({
       error:
         "Ha ocurrido un error al insertar la " +
@@ -22,8 +33,7 @@ exports.postSpecie = async (req, res) => {
 
 exports.editSpecie = async (req, res) => {
   try {
-    const { createdAt, updatedAt, __v, ...cleanBody } = req.body;
-
+    const cleanBody = pick(req.body, allowedFields);
     const specieEdited = await Specie.findByIdAndUpdate(
       req.params.id,
       cleanBody,
@@ -37,8 +47,14 @@ exports.editSpecie = async (req, res) => {
       return res.status(404).json({ error: "La especie no fue encontrado" });
     }
 
-    res.status(200).json(response);
+    res.status(200).json(specieEdited);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        error: "Ese nombre de la pelicula ya existe",
+        duplicatedFields: error.keyValue,
+      });
+    }
     res
       .status(500)
       .json({ error: "Ha ocurrido un error al editar la " + typeModule });
@@ -72,14 +88,11 @@ exports.getSpeciePage = async (req, res) => {
       .skip((page - 1) * limitPage)
       .limit(limitPage);
     res.status(200).json(specie);
-
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error:
-          "Ha ocurrido un error al obtener la informacion de la " + typeModule,
-      });
+    res.status(500).json({
+      error:
+        "Ha ocurrido un error al obtener la informacion de la " + typeModule,
+    });
   }
 };
 
@@ -96,8 +109,14 @@ exports.getSpecieSelect = async (req, res) => {
 exports.getSpecieById = async (req, res) => {
   try {
     const specie = await Specie.findById(req.params.id);
+    specie.homeworldName = await searchHomeworld(specie.homeworld)
     res.json(specie);
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }
 };
+
+async function searchHomeworld(id) {
+  const homeworld = await Homeworld.findById(id, { name: 1 });
+  return homeworld ? homeworld.name : null;
+}

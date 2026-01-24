@@ -21,6 +21,6 @@ const filmSchema = new Schema(
   },
 );
 //es el que nos relaciona el nombre de la coleccion en la BD con nuestro Schema de arriba ("films")
-filmSchema.index({ title: 1, director:1 ,productor:1}, { unique: true })
+filmSchema.index({ title: 1}, { unique: true })
 
 module.exports = mongoose.model("Film", filmSchema);
