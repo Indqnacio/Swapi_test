@@ -30,7 +30,6 @@ exports.editVehicle = async (req, res) => {
       {
         new: true,
         runValidators: true,
-        // select: "-createdAt -updatedAt -__v",
       },
     );
 
