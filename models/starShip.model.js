@@ -14,9 +14,9 @@ const starShipSchema = new Schema(
     weightCapacity: { type: Number }, //? como se muestra en kilos
 
     //! Esto lo podria poner en formato de dias, por que si esta en dias entonces es mas manejable
-    //! convertir 2 años = 730 dias con esto seria muy simple las conversiones 
-    //consumables: { type: String },   
-    consumables:{type: Number}       //?sera en formato dias
+    //! convertir 2 años = 730 dias con esto seria muy simple las conversiones
+    //consumables: { type: String },
+    consumables: { type: Number }, //?sera en formato dias
   },
   {
     timestamps: true,
@@ -29,4 +29,6 @@ const starShipSchema = new Schema(
     },
   },
 );
+
 module.exports = mongoose.model("Starship", starShipSchema);
+

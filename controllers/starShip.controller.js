@@ -1,10 +1,15 @@
+//imports
+const pick = require("../scripts/picks.js");
 const StarShip = require("../models/starShip.model");
+const allowedFields = require("../config/starship.allowFields.js");
+//const locales
 const typeModule = "StarShip";
 const limitPage = 10;
 
 exports.postStarShip = async (req, res) => {
   try {
-    const newStarShip = await StarShip.create(req.body);
+    const cleanBody = pick(req.body, allowedFields);
+    const newStarShip = await StarShip.create(cleanBody);
     res.status(201).json(newStarShip);
   } catch (error) {
     res.status(500).json({
@@ -18,9 +23,8 @@ exports.postStarShip = async (req, res) => {
 };
 
 exports.editStarShip = async (req, res) => {
+  const cleanBody = pick(req.body, allowedFields);
   try {
-    const { createdAt, updatedAt, __v, ...cleanBody } = req.body;
-
     const starShipEdited = await StarShip.findByIdAndUpdate(
       req.params.id,
       cleanBody,
@@ -29,11 +33,11 @@ exports.editStarShip = async (req, res) => {
         runValidators: true,
       },
     );
-    starShipEdited.map
+    starShipEdited.map;
     if (!starShipEdited) {
       return res
-      .status(404)
-      .json({ error: "La Nave Espacial no fue encontrada" });
+        .status(404)
+        .json({ error: "La Nave Espacial no fue encontrada" });
     }
     res.status(200).json(starShipEdited);
   } catch (error) {
