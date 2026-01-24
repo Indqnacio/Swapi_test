@@ -14,6 +14,7 @@ const vehicleSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
     toJSON: {
       transform: (_, response) => {
         delete response.createdAt;
@@ -24,3 +25,5 @@ const vehicleSchema = new Schema(
   },
 );
 module.exports = mongoose.model("Vehicle", vehicleSchema);
+
+vehicleSchema.index({ name: 1, model: 1 }, { unique: true })

@@ -24,6 +24,7 @@ const specieSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey:false,
     toJSON: {
       transform: (_, response) => {
         delete response.createdAt;

@@ -20,6 +20,13 @@ exports.postCharacter = async (req, res) => {
     const newCharacter = await Character.create(cleanBody);
     res.status(201).json(newCharacter);
   } catch (error) {
+    //Se esta metiendo informacion repetida
+    if (error.code === 11000) {
+      return res.status(409).json({
+        error: "El personaje ya existe"
+      });
+    }
+
     res.status(500).json({
       error:
         "Ha ocurrido un error al insertar el nuevo " +

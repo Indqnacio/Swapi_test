@@ -32,3 +32,5 @@ const starShipSchema = new Schema(
 
 module.exports = mongoose.model("Starship", starShipSchema);
 
+//es el que nos relaciona el nombre de la coleccion en la BD con nuestro Schema de arriba ("films")
+starShipSchema.index({ name: 1,model:1 }, { unique: true })

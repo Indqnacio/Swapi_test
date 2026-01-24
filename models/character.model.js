@@ -20,14 +20,21 @@ const characterSchema = new Schema(
     vehicles: [{ type: Schema.Types.ObjectId, ref: "Vehicle" }],
   },
   {
+    //? sin esto tendremos una variables"__v"
+    versionKey: false,
     timestamps: true,
+
+    //? no devolvemos estos campos
     toJSON: {
       transform: (_, response) => {
         delete response.createdAt;
         delete response.updatedAt;
-        delete response.__v;
       },
     },
   },
 );
 module.exports = mongoose.model("Charcter", characterSchema);
+
+//*esto evita que pongamos informacion repetida, pero nosotros definimos:
+//*  que campos no pueden ser duplicados
+characterSchema.index({ name: 1}, { unique: true })

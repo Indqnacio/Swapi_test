@@ -20,6 +20,8 @@ const planetSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
+
     toJSON: {
       transform: (_, response) => {
         delete response.createdAt;
@@ -27,5 +29,9 @@ const planetSchema = new Schema(
         delete response.__v;
       },
     },
-  },);
+  },
+);
 module.exports = mongoose.model("Planet", planetSchema);
+
+//es el que nos relaciona el nombre de la coleccion en la BD con nuestro Schema de arriba ("films")
+planetSchema.index({ name: 1}, { unique: true })
