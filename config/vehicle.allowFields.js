@@ -1,17 +1,15 @@
-//Prueba para ver si realmente funciona para hacer un tipo de map
 const allowedFields = [
   "name",
   "model",
-  "starshipClass",
+  "vehicleClass",
   "size",
-  "passengers",
+  "passangers",
   "maxAtmosphericSpeed",
-  "starshipClass",
-  "hyperdrive",
-  "MGLT",
   "weightCapacity",
   "consumables",
 ];
 
 module.exports = allowedFields;
+
+
 
