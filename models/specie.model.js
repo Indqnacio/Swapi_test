@@ -17,7 +17,6 @@ const specieSchema = new Schema(
 
     language: { type: String },
 
-    homeworldName : { type: String },
     homeworld: {
       type: Schema.Types.ObjectId,
       ref: "Planet",
@@ -25,7 +24,6 @@ const specieSchema = new Schema(
   },
   {
     timestamps: true,
-    versionKey:false,
     toJSON: {
       transform: (_, response) => {
         delete response.createdAt;

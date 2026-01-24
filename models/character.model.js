@@ -5,23 +5,21 @@ const characterSchema = new Schema(
   {
     name: { type: String, required: true },
     birthDay: { type: String },
-    eyeColor: { type: String },
     gender: { type: String },
+    mass: { type: String },
 
     hairColor: [{ type: String }],
-    mass: [{ type: Number }],
+    eyeColor: [{ type: String }],
     skinColor: [{ type: String }],
 
     //Relaciones
-    homeworld: { type: Schema.Types.ObjectId, ref: "Homeworld" },
-    films: [{ type: Schema.Types.ObjectId, ref: "Films" }],
+    homeworld: { type: Schema.Types.ObjectId, ref: "Planet" },
+    films: [{ type: Schema.Types.ObjectId, ref: "Film" }],
     species: [{ type: Schema.Types.ObjectId, ref: "Species" }],
     starships: [{ type: Schema.Types.ObjectId, ref: "Starship" }],
     vehicles: [{ type: Schema.Types.ObjectId, ref: "Vehicle" }],
   },
   {
-    //? sin esto tendremos una variables"__v"
-    versionKey: false,
     timestamps: true,
 
     //? no devolvemos estos campos
@@ -29,12 +27,13 @@ const characterSchema = new Schema(
       transform: (_, response) => {
         delete response.createdAt;
         delete response.updatedAt;
+        delete response.__v;
       },
     },
   },
 );
-module.exports = mongoose.model("Charcter", characterSchema);
-
 //*esto evita que pongamos informacion repetida, pero nosotros definimos:
 //*  que campos no pueden ser duplicados
-characterSchema.index({ name: 1}, { unique: true })
+characterSchema.index({ name: 1 }, { unique: true });
+
+module.exports = mongoose.model("Charcter", characterSchema);

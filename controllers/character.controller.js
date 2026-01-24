@@ -5,15 +5,6 @@ const pick = require("../scripts/picks.js");
 const typeModule = "Personaje";
 const limitPage = 10;
 
-//! Falta solucionar esto.
-//!    Que deberia hacer si se repite un usuario
-//     Que campos no se pueden repetir
-// //! pueden haber dos personas con el mismo nombre pero el resto diferente?
-//     Obvio que si se detecta este caso decir
-//     "corrige la informacion ese usuario ya existe"
-
-//? como saber que el usuario se repitio
-
 exports.postCharacter = async (req, res) => {
   try {
     const cleanBody = pick(req.body, allowedFields);
@@ -23,7 +14,7 @@ exports.postCharacter = async (req, res) => {
     //Se esta metiendo informacion repetida
     if (error.code === 11000) {
       return res.status(409).json({
-        error: "El personaje ya existe"
+        error: "El personaje ya existe",
       });
     }
 
@@ -38,8 +29,8 @@ exports.postCharacter = async (req, res) => {
 };
 
 exports.editCharacter = async (req, res) => {
-  const cleanBody = pick(req.body, allowedFields);
   try {
+    const cleanBody = pick(req.body, allowedFields);
     const characterEdited = await Character.findByIdAndUpdate(
       req.params.id,
       cleanBody,
@@ -54,6 +45,12 @@ exports.editCharacter = async (req, res) => {
     }
     res.status(200).json(characterEdited);
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({
+        error: "Ese nombre de personaje ya existe",
+        duplicatedFields: error.keyValue,
+      });
+    }
     res
       .status(500)
       .json({ error: "Ha ocurrido un error al editar el " + typeModule });
@@ -76,4 +73,53 @@ exports.deleteCharacter = async (req, res) => {
   }
 };
 
-//falta hacer los getters
+//obtienes 10 species por pagina
+exports.getCharacterPage = async (req, res) => {
+  const page = Number(req.query.page) || 1;
+
+  try {
+    const character = await Character.find()
+      //.select("-createdAt -updatedAt -__v")
+      .sort({ name: 1 })
+      .populate("homeworld", "name")
+      .populate("films", "title")
+      .populate("species", "name")
+      .populate("starships", "name")
+      .populate("vehicles", "name")
+      .skip((page - 1) * limitPage)
+      .limit(limitPage);
+    res.status(200).json(character);
+  } catch (error) {
+    res.status(500).json({
+      error:
+        "Ha ocurrido un error al obtener la informacion de el " +
+        typeModule +
+        error,
+      duplicatedFields: error.keyValue,
+    });
+  }
+};
+
+//Este solo devuelve el nombre y id
+exports.getCharacterSelect = async (req, res) => {
+  try {
+    const character = await Character.find({}, { _id: 1, name: 1 });
+    res.json(character);
+  } catch (err) {
+    res.status(404).json({ error: typeModule + " no encontrado" });
+  }
+};
+
+exports.getCharacterById = async (req, res) => {
+  try {
+    const character = await Character.findById(req.params.id)
+      .populate("homeworld", "name")
+      .populate("films", "title")
+      .populate("species", "name")
+      .populate("starships", "name")
+      .populate("vehicles", "name");
+    res.json(character);
+  } catch (err) {
+    res.status(404).json({ error: typeModule + " no encontrado" });
+  }
+};

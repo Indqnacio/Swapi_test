@@ -15,6 +15,7 @@ exports.postSpecie = async (req, res) => {
     const newSpecie = await Specie.create(cleanBody);
     res.status(201).json(newSpecie);
   } catch (error) {
+    
     if (error.code === 11000) {
       return res.status(409).json({
         error: "La especie ya existe",
@@ -85,6 +86,7 @@ exports.getSpeciePage = async (req, res) => {
     const specie = await Specie.find()
       //.select("-createdAt -updatedAt -__v")
       .sort({ name: 1 })
+      .populate("homeworld", "name")
       .skip((page - 1) * limitPage)
       .limit(limitPage);
     res.status(200).json(specie);
@@ -108,15 +110,9 @@ exports.getSpecieSelect = async (req, res) => {
 
 exports.getSpecieById = async (req, res) => {
   try {
-    const specie = await Specie.findById(req.params.id);
-    specie.homeworldName = await searchHomeworld(specie.homeworld)
+    const specie = await Specie.findById(req.params.id).populate("homeworld", "name");;
     res.json(specie);
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }
 };
-
-async function searchHomeworld(id) {
-  const homeworld = await Homeworld.findById(id, { name: 1 });
-  return homeworld ? homeworld.name : null;
-}

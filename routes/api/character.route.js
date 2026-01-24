@@ -2,13 +2,13 @@ const router = require("express").Router();
 const characterCtrl = require('../../controllers/character.controller');
 
 
-router.get('/select', characterCtrl.getFilmsSelect);
-router.get('/', characterCtrl.getFilmPage);
-router.get('/:id', characterCtrl.getFilmById);
+router.get('/select', characterCtrl.getCharacterSelect);
+router.get('/', characterCtrl.getCharacterPage);
+router.get('/:id', characterCtrl.getCharacterById);
 
-router.post('/',characterCtrl.postFilm);
-router.put('/:id',characterCtrl.editFilm);
-router.delete('/:id',characterCtrl.deleteFilm);
+router.post('/',characterCtrl.postCharacter);
+router.put('/:id',characterCtrl.editCharacter);
+router.delete('/:id',characterCtrl.deleteCharacter);
 
 
 //End Point para obtener toda la info de la API "SWAPI"

@@ -9,7 +9,6 @@ const allowedFields = [
   "skinColor",
   "language",
   "homeworld",
-  "homeworldName",
 ];
 
 module.exports = allowedFields;
