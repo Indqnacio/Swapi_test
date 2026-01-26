@@ -7,7 +7,6 @@ const specieSchema = new Schema(
     classification: { type: String, required: true },
     designation: { type: String },
 
-    //? debe ser promedio asi que cada vez que se Up,In o Del se modificara, asi tendremos el resultado final en teoria
     averageHeight: { type: Number },    //cm
     averageLifeSpan: { type: Number },  //years                    //?Como se podria obtener un promedio
 

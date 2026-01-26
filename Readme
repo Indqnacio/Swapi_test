@@ -18,3 +18,61 @@ la BD se llamara swapiTest
         
     luego ejecutar para poder ver los registros:
     db.[COLECCION_A_BUSCAR].find()   ej.Films
+
+{{baseURL}} = http://localhost:3000
+# Film endpoint
+### Get for dropdown (select)
+- {{baseURL}}/api/films/select
+    Ejemplo de la respueta
+    [
+        {
+            "_id": "696fbf8547bca7b4814b30f3",
+            "title": "prueba la pelicula"
+        },
+        {
+            "_id": "69725af30a2ddb5f8a75704c",
+            "title": "starwars la venganza recargada y con mas fuerza"
+        },
+        {
+            "_id": "697507dcca10e00b16cf63bb",
+            "title": "starwars la venganza recargada y con mas poder"
+        },
+    ]
+### Get by Page
+- {{baseURL}}/api/films?page=1
+    un get para obtener 10 registros con toda su info
+[
+    {
+        "_id": "696fbf8547bca7b4814b30f3",
+        "director": "Antonio Ibarra",
+        "productor": "Sasha Montenegro",
+        "title": "prueba la pelicula"
+    },
+    {
+        "_id": "69725af30a2ddb5f8a75704c",
+        "title": "starwars la venganza recargada y con mas fuerza",
+        "director": "Kevin",
+        "productor": "Ibarra"
+    },
+    ...10 objetos mas
+]
+
+### Get by Id
+- {{baseURL}}/api/films/696fbf8547bca7b4814b30f3
+    Get para obtener especificamente un registro por su id, pero bastante especifico
+
+### Post 
+- {{baseURL}}/api/films
+    endpoint para insertar usuarios
+    {
+    "title":"starwars la venganza recargada y con mas poder recargada",
+    "director":"Humberto",
+    "productor":"un random"
+    }
+### Put
+### Delete
+# Specie endpoint
+# Planet endpoint
+# StarShip endpoint
+# Vehicles endpoint
+# People endpoint

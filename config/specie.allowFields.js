@@ -12,3 +12,4 @@ const allowedFields = [
 ];
 
 module.exports = allowedFields;
+

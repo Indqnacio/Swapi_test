@@ -3,8 +3,8 @@ const characterCtrl = require('../../controllers/character.controller');
 
 
 router.get('/select', characterCtrl.getCharacterSelect);
-router.get('/', characterCtrl.getCharacterPage);
 router.get('/:id', characterCtrl.getCharacterById);
+router.get('/', characterCtrl.getCharacterPage);
 
 router.post('/',characterCtrl.postCharacter);
 router.put('/:id',characterCtrl.editCharacter);
