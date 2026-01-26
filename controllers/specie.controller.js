@@ -10,16 +10,6 @@ const typeModule = "Specie";
 const limitPage = 30;
 
 exports.postSpecie = async (req, res) => {
-  /*
-  #swagger.requestBody = {
-    required: true,
-    content: {
-      "application/json": {
-        schema: { $ref: "#/components/schemas/Specie" }
-      }
-    }
-  }
-*/
   try {
     const cleanBody = pick(req.body, allowedFields);
     const newSpecie = await Specie.create(cleanBody);

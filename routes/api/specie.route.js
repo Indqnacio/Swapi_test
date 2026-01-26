@@ -1,40 +1,111 @@
 const router = require("express").Router();
-const specieController = require('../../controllers/specie.controller');
+const controller = require("../../controllers/specie.controller.js");
 
 
-router.get('/select', specieController.getSpecieSelect);
-router.get('/', specieController.getSpeciePage);
-router.get('/:id', specieController.getSpecieById);
+router.get(
+  '/select',
+  /**
+   * #swagger.tags = ['Species']
+   * #swagger.summary = 'Listar especies por id y nombre'
+   * #swagger.responses[200] = {
+   *   description: 'Lista de especies'
+   * }
+  */
+ controller.getSpecieSelect
+);
 
-router.post('/',specieController.postSpecie);
-router.put('/:id',specieController.editSpecie);
-router.delete('/:id',specieController.deleteSpecie);
+router.get(
+  '/',
+  /**
+   * #swagger.tags = ['Species']
+   * #swagger.summary = 'Listar especies paginadas'
+   * #swagger.parameters['page'] = {
+   *   in: 'query',
+   *   required: false,
+   *   schema: { type: 'number' }
+   * }
+   * #swagger.responses[200] = {
+   *   description: 'Lista de especies'
+   * }
+  */
+ controller.getSpeciePage
+);
 
+router.get(
+  '/:id',
+  /**
+   * #swagger.tags = ['Species']
+   * #swagger.summary = 'Obtener especie por ID'
+   * #swagger.parameters['id'] = {
+   *   in: 'path',
+   *   required: true,
+   *   schema: { type: 'string' }
+   * }
+   * #swagger.responses[200] = {
+   *   description: 'Especie encontrada'
+   * }
+   * #swagger.responses[404] = {
+   *   description: 'Especie no encontrada'
+   * }
+  */
+ controller.getSpecieById
+);
 
-//End Point para obtener toda la info de la API "SWAPI"
-//router.get('/swapi/import',specieController.getPlanetsFromSWAPI)
+router.post(
+  '/',
+  /**
+   * #swagger.tags = ['Species']
+   * #swagger.summary = 'Crear una especie'
+   * #swagger.parameters['body'] = {
+   *   in: 'body',
+   *   required: true,
+   *   schema: { $ref: '#/definitions/Specie' }
+   * }
+   * #swagger.responses[201] = { description: 'Especie creada' }
+   */
+  controller.postSpecie
+);
+
+router.put(
+  '/:id',
+  /**
+   * #swagger.tags = ['Species']
+   * #swagger.summary = 'Editar especie (reemplazo completo)'
+   * #swagger.parameters['id'] = {
+   *   in: 'path',
+   *   required: true,
+   *   schema: { type: 'string' }
+   * }
+   * #swagger.requestBody = {
+   *   required: true,
+   *   content: {
+   *     "application/json": {
+   *       schema: { $ref: "#/components/schemas/Specie" }
+   *     }
+   *   }
+   * }
+   * #swagger.responses[200] = {
+   *   description: 'Especie actualizada'
+   * }
+   */
+  controller.editSpecie
+);
+
+router.delete(
+  '/:id',
+  /**
+   * #swagger.tags = ['Species']
+   * #swagger.summary = 'Eliminar especie'
+   * #swagger.parameters['id'] = {
+   *   in: 'path',
+   *   required: true,
+   *   schema: { type: 'string' }
+   * }
+   * #swagger.responses[200] = {
+   *   description: 'Especie eliminada'
+   * }
+   */
+  controller.deleteSpecie
+);
 
 module.exports = router;
-
-
-/* EJEMPLO, HomeWorld tiene que ir en String
-{
-    "name": "Wookies",
-    "classification": "slaves",
-    "designation": "Workers",
-    "averageHeight": 70,
-    "averageLifeSpan": 46,
-    "eyeColor": [
-        "blue"
-    ],
-    "hairColor": [
-        "red",
-        "brown"
-    ],
-    "skinColor": [
-        "blue"
-    ],
-    "language": "Chinease",
-    "homeworld": "697281b3f14d2f2599de8e34"
-}
-*/

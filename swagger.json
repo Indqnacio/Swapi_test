@@ -1,28 +1,31 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "API de personajes de starwars",
-    "descritpion": "Esta Api te permite mirar todos tus personajes favoritos de star wars",
-    "version": "1.0.0",
-    "description": ""
+    "title": "Starwars Data Base",
+    "description": "API de Star Wars",
+    "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "localhost:3000/api",
   "basePath": "/",
+  "tags": [
+    {
+      "name": "Species",
+      "description": "Informacion relevante de las especies"
+    },
+    {
+      "name": "Characters",
+      "description": "Informacion relevante de los personajes"
+    },
+    {
+      "name": "Planets",
+      "description": "Informacion relevante de los planetas"
+    }
+  ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/films/select": {
+    "/films/select": {
       "get": {
         "description": "",
         "responses": {
@@ -35,7 +38,7 @@
         }
       }
     },
-    "/api/films/": {
+    "/films/": {
       "get": {
         "description": "",
         "parameters": [
@@ -72,7 +75,7 @@
         }
       }
     },
-    "/api/films/{id}": {
+    "/films/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -137,7 +140,7 @@
         }
       }
     },
-    "/api/films/swapi/import": {
+    "/films/swapi/import": {
       "get": {
         "description": "",
         "responses": {
@@ -150,7 +153,408 @@
         }
       }
     },
-    "/api/planets/": {
+    "/planets/": {
+      "get": {
+        "tags": [
+          "Planets"
+        ],
+        "summary": "obten los planetas paginados de 10 en 10",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      },
+      "post": {
+        "tags": [
+          "Planets"
+        ],
+        "summary": "Crear un nuevo planeta",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/planets/select": {
+      "get": {
+        "tags": [
+          "Planets"
+        ],
+        "summary": "obten todos los planetas pero solo su id y nombre para un select",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "requestBody": {}
+      }
+    },
+    "/planets/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Planets"
+        ],
+        "summary": "Modificar un planeta",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      },
+      "delete": {
+        "tags": [
+          "Planets"
+        ],
+        "summary": "Eliminar un planeta",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      }
+    },
+    "/planets/swapi/import": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/species/select": {
+      "get": {
+        "tags": [
+          "Species"
+        ],
+        "summary": "Listar especies por id y nombre",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/species/": {
+      "get": {
+        "tags": [
+          "Species"
+        ],
+        "summary": "Listar especies paginadas",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Species"
+        ],
+        "summary": "Crear una especie",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Especie creada"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/species/{id}": {
+      "get": {
+        "tags": [
+          "Species"
+        ],
+        "summary": "Obtener especie por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Species"
+        ],
+        "summary": "Editar especie (reemplazo completo)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      },
+      "delete": {
+        "tags": [
+          "Species"
+        ],
+        "summary": "Eliminar especie",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/starships/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/starships/select": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/starships/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/vehicles/": {
       "get": {
         "description": "",
         "parameters": [
@@ -184,7 +588,7 @@
         }
       }
     },
-    "/api/planets/select": {
+    "/vehicles/select": {
       "get": {
         "description": "",
         "responses": {
@@ -197,7 +601,7 @@
         }
       }
     },
-    "/api/planets/{id}": {
+    "/vehicles/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -225,27 +629,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "createdAt": {
-                  "example": "any"
-                },
-                "updatedAt": {
-                  "example": "any"
-                },
-                "__v": {
-                  "example": "any"
-                },
-                "cleanBody": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -274,14 +657,21 @@
           "200": {
             "description": "OK"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       }
     },
-    "/api/planets/swapi/import": {
+    "/characters/select": {
       "get": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "obten todos los personajes pero solo su id y nombre para un select",
         "description": "",
         "responses": {
           "200": {
@@ -290,12 +680,25 @@
           "404": {
             "description": "Not Found"
           }
-        }
+        },
+        "requestBody": {}
       }
     },
-    "/api/species/select": {
+    "/characters/{id}": {
       "get": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "busca un personaje por su Id",
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -303,11 +706,63 @@
           "404": {
             "description": "Not Found"
           }
+        },
+        "requestBody": {}
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
       }
     },
-    "/api/species/": {
+    "/characters/": {
       "get": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "busca los personajes por paginas",
         "description": "",
         "parameters": [
           {
@@ -323,9 +778,14 @@
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "requestBody": {}
       },
       "post": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Crear un personaje desde 0",
         "description": "",
         "responses": {
           "201": {
@@ -338,571 +798,219 @@
             "description": "Internal Server Error"
           }
         },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Specie"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/species/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/starships/": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/starships/select": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/starships/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/vehicles/": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/vehicles/select": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/vehicles/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/characters/select": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/characters/": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/characters/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "requestBody": {}
       }
     }
   },
   "components": {
     "schemas": {
-      "components": {
-        "schemas": {
-          "Specie": {
-            "type": "object",
-            "required": [
-              "name",
-              "classification"
-            ],
-            "properties": {
-              "name": {
-                "type": "string",
-                "example": "Wookiee"
-              },
-              "classification": {
-                "type": "string",
-                "example": "mammal"
-              },
-              "designation": {
-                "type": "string",
-                "example": "sentient"
-              },
-              "averageHeight": {
-                "type": "number",
-                "example": 210
-              },
-              "averageLifeSpan": {
-                "type": "number",
-                "example": 400
-              },
-              "eyeColor": {
-                "type": "array",
-                "items": {
-                  "type": "string"
+      "Specie": {
+        "type": "object",
+        "required": [
+          "name",
+          "classification"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Wookiee"
+          },
+          "classification": {
+            "type": "string",
+            "example": "mammal"
+          },
+          "designation": {
+            "type": "string",
+            "example": "sentient"
+          },
+          "averageHeight": {
+            "type": "number",
+            "example": 210
+          },
+          "averageLifeSpan": {
+            "type": "number",
+            "example": 400
+          },
+          "eyeColor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "blue",
+              "green"
+            ]
+          },
+          "hairColor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "brown"
+            ]
+          },
+          "skinColor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "gray"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "example": "Shyriiwook"
+          },
+          "homeworld": {
+            "type": "string",
+            "example": "664d8f8f8f8f8f8f8f8f8f8f"
+          }
+        }
+      },
+      "Character": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Anakin SkyWalker"
+          },
+          "birthDay": {
+            "type": "string",
+            "example": "19BBY"
+          },
+          "gender": {
+            "type": "string",
+            "example": "male"
+          },
+          "mass": {
+            "type": "number",
+            "example": 77
+          },
+          "eyeColor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "blue",
+              "orange"
+            ]
+          },
+          "hairColor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "brown"
+            ]
+          },
+          "skinColor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "fair"
+            ]
+          },
+          "homeworld": {
+            "type": "string",
+            "example": "697281b3f14d2f2599de8e34"
+          },
+          "films": {
+            "type": "string",
+            "example": [
+              "69725af30a2ddb5f8a75704c"
+            ]
+          },
+          "species": {
+            "type": "string",
+            "example": "6973b719545b85d0ac5c82b5"
+          },
+          "starships": {
+            "type": "string",
+            "example": "6973d624bb237088f2eb5db3"
+          },
+          "vehicles": {
+            "type": "string",
+            "example": "6973e0d4663cc606e4a47304"
+          }
+        }
+      },
+      "Planet": {
+        "type": "object",
+        "required": [
+          "name",
+          "diameter"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Tatooine"
+          },
+          "diameter": {
+            "type": "number",
+            "example": 10465,
+            "description": "Diámetro del planeta en kilómetros"
+          },
+          "rotationPeriod": {
+            "type": "number",
+            "example": 23,
+            "description": "Periodo de rotación en horas"
+          },
+          "orbitalPeriod": {
+            "type": "number",
+            "example": 304,
+            "description": "Periodo orbital en días"
+          },
+          "gravity": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number",
+                  "example": 1
                 },
-                "example": [
-                  "blue",
-                  "green"
-                ]
-              },
-              "hairColor": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "brown"
-                ]
-              },
-              "skinColor": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "gray"
-                ]
-              },
-              "language": {
-                "type": "string",
-                "example": "Shyriiwook"
-              },
-              "homeworld": {
-                "type": "string",
-                "example": "664d8f8f8f8f8f8f8f8f8f8f"
+                "description": {
+                  "type": "string",
+                  "example": "surface"
+                }
               }
             }
           },
-          "Character": {
-            "type": "object",
-            "required": [
-              "name"
-            ],
-            "properties": {
-              "name": {
-                "type": "string",
-                "example": "Anakin SkyWalker"
-              },
-              "birthDay": {
-                "type": "string",
-                "example": "19BBY"
-              },
-              "gender": {
-                "type": "string",
-                "example": "male"
-              },
-              "mass": {
-                "type": "number",
-                "example": 77
-              },
-              "eyeColor": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "blue",
-                  "orange"
-                ]
-              },
-              "hairColor": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "brown"
-                ]
-              },
-              "skinColor": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "fair"
-                ]
-              },
-              "homeworld": {
-                "type": "string",
-                "example": "697281b3f14d2f2599de8e34"
-              },
-              "films": {
-                "type": "string",
-                "example": [
-                  "69725af30a2ddb5f8a75704c"
-                ]
-              },
-              "species": {
-                "type": "string",
-                "example": "6973b719545b85d0ac5c82b5"
-              },
-              "starships": {
-                "type": "string",
-                "example": "6973d624bb237088f2eb5db3"
-              },
-              "vehicles": {
-                "type": "string",
-                "example": "6973e0d4663cc606e4a47304"
-              }
-            }
+          "population": {
+            "type": "number",
+            "example": 200000
+          },
+          "climate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "arid"
+            ]
+          },
+          "terrain": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "desert"
+            ]
+          },
+          "waterSurfacePer": {
+            "type": "number",
+            "example": 2003,
+            "description": "Porcentaje de superficie cubierta por agua"
           }
         }
       }

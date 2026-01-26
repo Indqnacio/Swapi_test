@@ -1,6 +1,4 @@
-/*
-Este se conecta con la BD y inicia el servidor
-*/
+// Este se conecta con la BD y inicia el servidor
 require('dotenv').config();
 
 const mongoose = require("mongoose");
