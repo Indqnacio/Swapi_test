@@ -15,8 +15,8 @@ const starShipSchema = new Schema(
 
     //! Esto lo podria poner en formato de dias, por que si esta en dias entonces es mas manejable
     //! convertir 2 años = 730 dias con esto seria muy simple las conversiones
-    //consumables: { type: String },
-    consumables: { type: Number }, //?sera en formato dias
+    consumables: { type: Number },
+    swapiUrl: { type: String, index: true },
   },
   {
     timestamps: true,
@@ -33,4 +33,4 @@ const starShipSchema = new Schema(
 //es el que nos relaciona el nombre de la coleccion en la BD con nuestro Schema de arriba ("films")
 starShipSchema.index({ name: 1,model:1 }, { unique: true })
 
-module.exports = mongoose.model("Starship", starShipSchema);
+module.exports = mongoose.models.Starship || mongoose.model("Starship", starShipSchema);

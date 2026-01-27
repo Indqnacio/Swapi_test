@@ -11,6 +11,7 @@ const vehicleSchema = new Schema(
     maxAtmosphericSpeed: { type: Number },
     weightCapacity: { type: Number }, //? como se muestra en kilos
     consumables: { type: Number }, //?sera en formato dias
+    swapiUrl: { type: String, index: true },
   },
   {
     timestamps: true,
@@ -24,6 +25,6 @@ const vehicleSchema = new Schema(
     },
   },
 );
-module.exports = mongoose.model("Vehicle", vehicleSchema);
+vehicleSchema.index({ name: 1, model: 1 }, { unique: true });
 
-vehicleSchema.index({ name: 1, model: 1 }, { unique: true })
+module.exports = mongoose.model("Vehicle", vehicleSchema);

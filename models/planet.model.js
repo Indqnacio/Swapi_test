@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const planetSchema = new Schema(
   {
     name: { type: String, required: true },
-    diameter: { type: Number, required: true }, //?Como se podria poner en kilometros o ya con eso esta bien
+    diameter: { type: Number }, // algunos planetas de SWAPI tienen "unknown" no se que deberia hacer
+    // diameter: { type: Number, required: true }, //?Como se podria poner en kilometros o ya con eso esta bien
     rotationPeriod: { type: Number },
     orbitalPeriod: { type: Number },
     gravity: [
@@ -17,6 +18,8 @@ const planetSchema = new Schema(
     climate: [{ type: String }],
     terrain: [{ type: String }],
     waterSurfacePer: { type: Number },
+    // guardamos la URL original de SWAPI para poder resolver relaciones luego
+    swapiUrl: { type: String, index: true },
   },
   {
     timestamps: true,
@@ -31,7 +34,8 @@ const planetSchema = new Schema(
     },
   },
 );
-module.exports = mongoose.model("Planet", planetSchema);
+// índice único por nombre osea le agregamos un indice
+planetSchema.index({ name: 1 }, { unique: true });
 
-//es el que nos relaciona el nombre de la coleccion en la BD con nuestro Schema de arriba ("films")
-planetSchema.index({ name: 1}, { unique: true })
+module.exports =
+  mongoose.models.Planet || mongoose.model("Planet", planetSchema);

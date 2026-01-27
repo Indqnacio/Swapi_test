@@ -7,7 +7,7 @@ const characterSchema = new Schema(
     birthDay: { type: String },
     gender: { type: String },
     mass: { type: String },
-    height: {type: Number},
+    height: { type: Number },
 
     hairColor: [{ type: String }],
     eyeColor: [{ type: String }],
@@ -19,6 +19,9 @@ const characterSchema = new Schema(
     species: [{ type: Schema.Types.ObjectId, ref: "Species" }],
     starships: [{ type: Schema.Types.ObjectId, ref: "Starship" }],
     vehicles: [{ type: Schema.Types.ObjectId, ref: "Vehicle" }],
+
+    // URL original de SWAPI para poder emparejar registros al resolver relaciones
+    swapiUrl: { type: String, index: true },
   },
   {
     timestamps: true,
@@ -37,4 +40,6 @@ const characterSchema = new Schema(
 //*  que campos no pueden ser duplicados
 characterSchema.index({ name: 1 }, { unique: true });
 
-module.exports = mongoose.model("Charcter", characterSchema);
+//! necesito ver por que esto afecta
+module.exports =
+  mongoose.models.Charcter || mongoose.model("Charcter", characterSchema);

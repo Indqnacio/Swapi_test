@@ -7,8 +7,8 @@ const specieSchema = new Schema(
     classification: { type: String, required: true },
     designation: { type: String },
 
-    averageHeight: { type: Number },    //cm
-    averageLifeSpan: { type: Number },  //years                    //?Como se podria obtener un promedio
+    averageHeight: { type: Number }, //cm
+    averageLifeSpan: { type: Number }, //years                    //?Como se podria obtener un promedio
 
     eyeColor: [{ type: String }],
     hairColor: [{ type: String }],
@@ -19,7 +19,8 @@ const specieSchema = new Schema(
     homeworld: {
       type: Schema.Types.ObjectId,
       ref: "Planet",
-    }, 
+    },
+    swapiUrl: { type: String, index: true },
   },
   {
     timestamps: true,
@@ -27,11 +28,12 @@ const specieSchema = new Schema(
       transform: (_, response) => {
         delete response.createdAt;
         delete response.updatedAt;
-        delete response.__v
+        delete response.__v;
       },
-    }
-  },);
+    },
+  },
+);
 
-specieSchema.index({ name: 1 }, { unique: true })
+specieSchema.index({ name: 1 }, { unique: true });
 
-module.exports = mongoose.model("Species", specieSchema);
+module.exports = mongoose.models.Species || mongoose.model("Species", specieSchema);
