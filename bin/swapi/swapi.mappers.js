@@ -1,3 +1,4 @@
+//! solo para darle formato a nuestros datos en caso de no ser validos
 const normalizeNumber = (value) => {
   if (!value || value === "unknown" || value === "n/a") return null;
   const num = Number(value.replace(/,/g, ""));
@@ -9,10 +10,11 @@ const normalizeArray = (value) => {
   return value.split(",").map(v => v.trim());
 };
 
+//! es batallaso trabajar con gravity
 const normalizeGravity = (gravity) => {
   if (!gravity || gravity === "unknown") return [];
 
-// "1 standard" en teoria debe funcionar separandolos
+//? "1 standard" en teoria debe funcionar separandolos en dos
   const match = gravity.match(/([\d.]+)\s*(.*)/);
 
   if (!match) return [];
@@ -39,6 +41,14 @@ const mapPlanet = (swapiPlanet) => ({
   terrain: normalizeArray(swapiPlanet.terrain),
   waterSurfacePer: normalizeNumber(swapiPlanet.surface_water),
   swapiUrl: swapiPlanet.url ?? null,
+});
+
+const mapFilm = (swapiFilm) => ({
+  title: swapiFilm.title ?? null,
+  director: swapiFilm.director ?? null,
+  // SWAPI usa "producer" (coma-separados cuando hay varios); lo guardamos tal cual
+  productor: swapiFilm.producer ?? null,
+  swapiUrl: swapiFilm.url ?? null,
 });
 
 module.exports = {

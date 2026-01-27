@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const http = require("http");
 const app = require("../app");
 
-const { seedPlanets } = require("./swapi/swapi.seed");
+const { seedAll } = require("./swapi/swapi.seed");
 
 const port = process.env.PORT || 3000;
 
@@ -14,9 +14,9 @@ mongoose
     console.log("MongoDB conectado");
 
     try {
-      await seedPlanets();
+      await seedAll();
     } catch (err) {
-      console.error("Error en seedPlanets:", err.message || err);
+      console.error("Error en al traer la info:", err.message || err);
     }
 
     http.createServer(app).listen(port, () => {
