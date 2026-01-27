@@ -5,8 +5,8 @@
     "description": "API de Star Wars",
     "version": "1.0.0"
   },
-  "host": "localhost:3000/api",
-  "basePath": "/",
+  "host": "localhost:3000",
+  "basePath": "/api",
   "tags": [
     {
       "name": "Species",
@@ -19,10 +19,28 @@
     {
       "name": "Planets",
       "description": "Informacion relevante de los planetas"
+    },
+    {
+      "name": "Films",
+      "description": "Informacion relevante de las peliculas"
+    },
+    {
+      "name": "Starships",
+      "description": "Informacion relevante de las naves"
+    },
+    {
+      "name": "Vehicles",
+      "description": "Informacion relevante de los vehiculos"
     }
   ],
   "schemes": [
     "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
     "/films/select": {
@@ -409,8 +427,7 @@
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "requestBody": {}
+        }
       },
       "delete": {
         "tags": [
@@ -800,217 +817,1006 @@
         },
         "requestBody": {}
       }
+    },
+    "/select": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "requestBody": {}
+      }
+    },
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      }
+    },
+    "/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "requestBody": {}
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {}
+      }
+    },
+    "/swapi/import": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     }
   },
-  "components": {
-    "schemas": {
-      "Specie": {
-        "type": "object",
-        "required": [
-          "name",
-          "classification"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Wookiee"
-          },
-          "classification": {
-            "type": "string",
-            "example": "mammal"
-          },
-          "designation": {
-            "type": "string",
-            "example": "sentient"
-          },
-          "averageHeight": {
-            "type": "number",
-            "example": 210
-          },
-          "averageLifeSpan": {
-            "type": "number",
-            "example": 400
-          },
-          "eyeColor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "blue",
-              "green"
-            ]
-          },
-          "hairColor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "brown"
-            ]
-          },
-          "skinColor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "gray"
-            ]
-          },
-          "language": {
-            "type": "string",
-            "example": "Shyriiwook"
-          },
-          "homeworld": {
-            "type": "string",
-            "example": "664d8f8f8f8f8f8f8f8f8f8f"
+  "definitions": {
+    "Specie": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "name",
+            "classification"
+          ],
+          "items": {
+            "type": "string"
           }
-        }
-      },
-      "Character": {
-        "type": "object",
-        "required": [
-          "name"
-        ],
+        },
         "properties": {
-          "name": {
-            "type": "string",
-            "example": "Anakin SkyWalker"
-          },
-          "birthDay": {
-            "type": "string",
-            "example": "19BBY"
-          },
-          "gender": {
-            "type": "string",
-            "example": "male"
-          },
-          "mass": {
-            "type": "number",
-            "example": 77
-          },
-          "eyeColor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "blue",
-              "orange"
-            ]
-          },
-          "hairColor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "brown"
-            ]
-          },
-          "skinColor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "fair"
-            ]
-          },
-          "homeworld": {
-            "type": "string",
-            "example": "697281b3f14d2f2599de8e34"
-          },
-          "films": {
-            "type": "string",
-            "example": [
-              "69725af30a2ddb5f8a75704c"
-            ]
-          },
-          "species": {
-            "type": "string",
-            "example": "6973b719545b85d0ac5c82b5"
-          },
-          "starships": {
-            "type": "string",
-            "example": "6973d624bb237088f2eb5db3"
-          },
-          "vehicles": {
-            "type": "string",
-            "example": "6973e0d4663cc606e4a47304"
-          }
-        }
-      },
-      "Planet": {
-        "type": "object",
-        "required": [
-          "name",
-          "diameter"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Tatooine"
-          },
-          "diameter": {
-            "type": "number",
-            "example": 10465,
-            "description": "Diámetro del planeta en kilómetros"
-          },
-          "rotationPeriod": {
-            "type": "number",
-            "example": 23,
-            "description": "Periodo de rotación en horas"
-          },
-          "orbitalPeriod": {
-            "type": "number",
-            "example": 304,
-            "description": "Periodo orbital en días"
-          },
-          "gravity": {
-            "type": "array",
-            "items": {
+          "type": "object",
+          "properties": {
+            "name": {
               "type": "object",
               "properties": {
-                "value": {
-                  "type": "number",
-                  "example": 1
-                },
-                "description": {
+                "type": {
                   "type": "string",
-                  "example": "surface"
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Wookiee"
+                }
+              }
+            },
+            "classification": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "mammal"
+                }
+              }
+            },
+            "designation": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "sentient"
+                }
+              }
+            },
+            "averageHeight": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 210
+                }
+              }
+            },
+            "averageLifeSpan": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 400
+                }
+              }
+            },
+            "eyeColor": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "type": "array",
+                  "example": [
+                    "blue",
+                    "green"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "hairColor": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "type": "array",
+                  "example": [
+                    "brown"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "skinColor": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "type": "array",
+                  "example": [
+                    "gray"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "language": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Shyriiwook"
+                }
+              }
+            },
+            "homeworld": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "664d8f8f8f8f8f8f8f8f8f8f"
                 }
               }
             }
-          },
-          "population": {
-            "type": "number",
-            "example": 200000
-          },
-          "climate": {
-            "type": "array",
-            "items": {
-              "type": "string"
+          }
+        }
+      }
+    },
+    "Character": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "name"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Anakin SkyWalker"
+                }
+              }
             },
-            "example": [
-              "arid"
-            ]
-          },
-          "terrain": {
-            "type": "array",
-            "items": {
-              "type": "string"
+            "birthDay": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "19BBY"
+                }
+              }
             },
-            "example": [
-              "desert"
-            ]
-          },
-          "waterSurfacePer": {
-            "type": "number",
-            "example": 2003,
-            "description": "Porcentaje de superficie cubierta por agua"
+            "gender": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "male"
+                }
+              }
+            },
+            "mass": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 77
+                }
+              }
+            },
+            "eyeColor": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "hairColor": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "skinColor": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "homeworld": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            },
+            "films": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "species": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            },
+            "starships": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            },
+            "vehicles": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Planet": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "name",
+            "diameter"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Tatooine"
+                }
+              }
+            },
+            "diameter": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 10465
+                }
+              }
+            },
+            "rotationPeriod": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 23
+                }
+              }
+            },
+            "orbitalPeriod": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 304
+                }
+              }
+            },
+            "population": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 200000
+                }
+              }
+            },
+            "climate": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "terrain": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "waterSurfacePer": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 20
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Film": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "title",
+            "director",
+            "productor"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "A New Hope"
+                }
+              }
+            },
+            "director": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "George Lucas"
+                }
+              }
+            },
+            "productor": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Gary Kurtz"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Starship": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "name",
+            "model"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Millennium Falcon"
+                }
+              }
+            },
+            "model": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "YT-1300 light freighter"
+                }
+              }
+            },
+            "starshipClass": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Light freighter"
+                }
+              }
+            },
+            "size": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 34
+                }
+              }
+            },
+            "passangers": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 6
+                }
+              }
+            },
+            "maxAtmosphericSpeed": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 1000
+                }
+              }
+            },
+            "hyperdrive": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "0.5"
+                }
+              }
+            },
+            "MGLT": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 75
+                }
+              }
+            },
+            "weightCapacity": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 100000
+                }
+              }
+            },
+            "consumables": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 730
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Vehicle": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "name",
+            "model"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Speeder"
+                }
+              }
+            },
+            "model": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "X-34"
+                }
+              }
+            },
+            "vehicleClass": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "repulsorcraft"
+                }
+              }
+            },
+            "size": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 3
+                }
+              }
+            },
+            "passangers": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            },
+            "maxAtmosphericSpeed": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 250
+                }
+              }
+            },
+            "weightCapacity": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 200
+                }
+              }
+            },
+            "consumables": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "number"
+                },
+                "example": {
+                  "type": "number",
+                  "example": 30
+                }
+              }
+            }
           }
         }
       }

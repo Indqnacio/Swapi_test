@@ -1,21 +1,20 @@
 const router = require("express").Router();
 const controller = require("../../controllers/specie.controller.js");
 
-
 router.get(
-  '/select',
+  "/select",
   /**
    * #swagger.tags = ['Species']
    * #swagger.summary = 'Listar especies por id y nombre'
    * #swagger.responses[200] = {
    *   description: 'Lista de especies'
    * }
-  */
- controller.getSpecieSelect
+   */
+  controller.getSpecieSelect,
 );
 
 router.get(
-  '/',
+  "/",
   /**
    * #swagger.tags = ['Species']
    * #swagger.summary = 'Listar especies paginadas'
@@ -27,12 +26,12 @@ router.get(
    * #swagger.responses[200] = {
    *   description: 'Lista de especies'
    * }
-  */
- controller.getSpeciePage
+   */
+  controller.getSpeciePage,
 );
 
 router.get(
-  '/:id',
+  "/:id",
   /**
    * #swagger.tags = ['Species']
    * #swagger.summary = 'Obtener especie por ID'
@@ -47,12 +46,12 @@ router.get(
    * #swagger.responses[404] = {
    *   description: 'Especie no encontrada'
    * }
-  */
- controller.getSpecieById
+   */
+  controller.getSpecieById,
 );
 
 router.post(
-  '/',
+  "/",
   /**
    * #swagger.tags = ['Species']
    * #swagger.summary = 'Crear una especie'
@@ -63,11 +62,11 @@ router.post(
    * }
    * #swagger.responses[201] = { description: 'Especie creada' }
    */
-  controller.postSpecie
+  controller.postSpecie,
 );
 
 router.put(
-  '/:id',
+  "/:id",
   /**
    * #swagger.tags = ['Species']
    * #swagger.summary = 'Editar especie (reemplazo completo)'
@@ -76,23 +75,20 @@ router.put(
    *   required: true,
    *   schema: { type: 'string' }
    * }
-   * #swagger.requestBody = {
+   * #swagger.parameters['body'] = {
+   *   in: 'body',
    *   required: true,
-   *   content: {
-   *     "application/json": {
-   *       schema: { $ref: "#/components/schemas/Specie" }
-   *     }
-   *   }
+   *   schema: { $ref: '#/definitions/Specie' }
    * }
    * #swagger.responses[200] = {
    *   description: 'Especie actualizada'
    * }
    */
-  controller.editSpecie
+  controller.editSpecie,
 );
 
 router.delete(
-  '/:id',
+  "/:id",
   /**
    * #swagger.tags = ['Species']
    * #swagger.summary = 'Eliminar especie'
@@ -105,7 +101,7 @@ router.delete(
    *   description: 'Especie eliminada'
    * }
    */
-  controller.deleteSpecie
+  controller.deleteSpecie,
 );
 
 module.exports = router;
