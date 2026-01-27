@@ -68,7 +68,7 @@ exports.editCharacter = async (req, res) => {
   }
 };
 
-exports.deleteCharacter = async (req, res) => {a
+exports.deleteCharacter = async (req, res) => {
   try {
     const delCharacter = await Character.findByIdAndDelete(req.params.id);
 

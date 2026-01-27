@@ -2,6 +2,7 @@ const allowedFields = [
   "name",
   "birthDay",
   "birthDay",
+  "height",
   "eyeColor",
   "gender",
   "hairColor",

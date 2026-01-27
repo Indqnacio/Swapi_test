@@ -7,7 +7,7 @@ mongoose
   .then(async () => {
     try {
       await seedSpecies();
-      console.log('seedSpecies finished');
+      console.log('seedSpecies terminado ');
       process.exit(0);
     } catch (err) {
       console.error('seedSpecies error', err.message || err);

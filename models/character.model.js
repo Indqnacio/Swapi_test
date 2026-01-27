@@ -7,6 +7,7 @@ const characterSchema = new Schema(
     birthDay: { type: String },
     gender: { type: String },
     mass: { type: String },
+    height: {type: Number},
 
     hairColor: [{ type: String }],
     eyeColor: [{ type: String }],

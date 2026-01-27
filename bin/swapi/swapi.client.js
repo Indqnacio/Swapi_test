@@ -4,7 +4,7 @@ const SWAPI_BASE = "https://swapi.info/api";
 
 // trae todos los datos de la coleccion que le pasemos
 const getAllPages = async (data) => {
-  if (!data) throw new Error('No hay informacion, no se traera informacion');
+  if (!data) throw new Error('No hay informacion, no se continuara');
  const allPages = [];
   let next = `${SWAPI_BASE}/${resource}/`;
 
