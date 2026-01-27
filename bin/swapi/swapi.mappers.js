@@ -12,7 +12,7 @@ const normalizeArray = (value) => {
 const normalizeGravity = (gravity) => {
   if (!gravity || gravity === "unknown") return [];
 
-  // "1 standard"
+// "1 standard" en teoria debe funcionar separandolos
   const match = gravity.match(/([\d.]+)\s*(.*)/);
 
   if (!match) return [];
@@ -23,9 +23,14 @@ const normalizeGravity = (gravity) => {
   }];
 };
 
+const normalizeConsumables = (value) => {
+  // espero y convierta textos como "2 months", "6 years", "3 days" a número de días.
+
+}
+
 const mapPlanet = (swapiPlanet) => ({
-  name: swapiPlanet.name,
-  diameter: normalizeNumber(swapiPlanet.diameter),
+  name: swapiPlanet.name ?? null,
+  diameter: normalizeNumber(swapiPlanet.diameter) ?? null,
   rotationPeriod: normalizeNumber(swapiPlanet.rotation_period),
   orbitalPeriod: normalizeNumber(swapiPlanet.orbital_period),
   gravity: normalizeGravity(swapiPlanet.gravity),
@@ -33,6 +38,7 @@ const mapPlanet = (swapiPlanet) => ({
   climate: normalizeArray(swapiPlanet.climate),
   terrain: normalizeArray(swapiPlanet.terrain),
   waterSurfacePer: normalizeNumber(swapiPlanet.surface_water),
+  swapiUrl: swapiPlanet.url ?? null,
 });
 
 module.exports = {

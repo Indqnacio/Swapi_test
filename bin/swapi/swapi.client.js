@@ -1,7 +1,6 @@
 const axios = require("axios");
 
-// Usamos la API pública oficial de SWAPI
-const SWAPI_BASE = "https://swapi.dev/api";
+const SWAPI_BASE = "https://swapi.info/api";
 
 const swapiClient = axios.create({
   baseURL: SWAPI_BASE,
@@ -9,11 +8,10 @@ const swapiClient = axios.create({
 });
 
 /**
- * getPlanets
- * - Descarga todas las páginas de /planets/
- * - Devuelve un array con todos los planetas (cada entry como el objeto SWAPI original)
+  * Esto debe ser mas modular asi no me sirve
  */
-const getPlanets = async () => {
+const getAllPages = async (data) => {
+  if (!data) throw new Error('No hay informacion, no se traera informacion');
   const allPlanets = [];
   let next = `${SWAPI_BASE}/planets/`;
 
@@ -42,5 +40,5 @@ const getPlanets = async () => {
 };
 
 module.exports = {
-  getPlanets,
+  getAllPages,
 };
