@@ -90,19 +90,20 @@ const mapSpecie = (swapiSpecie) => ({
   swapiUrl: swapiSpecie.url ?? null,
 });
 
-const mapStarship = (swapiShip) => ({
-  name: swapiShip.name ?? null,
-  model: swapiShip.model ?? null,
-  starshipClass: swapiShip.starship_class ?? null,
-  size: normalizeNumber(swapiShip.length),
-  passangers: normalizeNumber(swapiShip.passengers),
-  maxAtmosphericSpeed: normalizeNumber(swapiShip.max_atmosphering_speed),
-  hyperdrive: swapiShip.hyperdrive_rating ?? null,
-  MGLT: normalizeNumber(swapiShip.MGLT),
-  weightCapacity: normalizeNumber(swapiShip.cargo_capacity),
+const mapStarship = (data) => ({
+  name: data.name ?? null,
+  model: data.model ?? null,
+  starshipClass: data.starship_class ?? null,
+  size: normalizeNumber(data.length),
+  passangers: normalizeNumber(data.passengers),
+  maxAtmosphericSpeed: normalizeNumber(data.max_atmosphering_speed),
+  //! por que falla si no tiene un valor extraño??
+  hyperdrive: normalizeNumber(data.hyperdrive_rating) ,
+  MGLT: normalizeNumber(data.MGLT),
+  weightCapacity: normalizeNumber(data.cargo_capacity),
   // solo es cosa de pasarlo a dias los años meses etc
-  consumables: normalizeConsumables(swapiShip.consumables),
-  swapiUrl: swapiShip.url ?? null,
+  consumables: normalizeConsumables(data.consumables),
+  swapiUrl: data.url ?? null,
 });
 
 const mapVehicle = (swapiVehicle) => ({

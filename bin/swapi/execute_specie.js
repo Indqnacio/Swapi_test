@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { seedSpecies } = require('./swapi.seed');
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/swapiTest')
+  .connect('mongodb://127.0.0.1:27017/swapiTest2')
   .then(async () => {
     try {
       await seedSpecies();

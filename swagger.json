@@ -359,13 +359,13 @@
       },
       "post": {
         "tags": [
-          "Characters"
+          "Species"
         ],
-        "summary": "Crear un personaje desde 10000",
+        "summary": "Crear una especie",
         "description": "",
         "responses": {
           "201": {
-            "description": "Especie creada correctamente"
+            "description": "Especie creada"
           },
           "409": {
             "description": "Conflict"
@@ -373,8 +373,7 @@
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "requestBody": {}
+        }
       }
     },
     "/species/{id}": {
@@ -875,8 +874,7 @@
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "requestBody": {}
+        }
       }
     },
     "/{id}": {

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const planetSchema = new Schema(
   {
     name: { type: String, required: true },
-    diameter: { type: Number }, // algunos planetas de SWAPI tienen "unknown" no se que deberia hacer
+    diameter: { type: Number, default: -1 }, // algunos planetas de SWAPI tienen "unknown" no se que deberia hacer
     // diameter: { type: Number, required: true }, //?Como se podria poner en kilometros o ya con eso esta bien
     rotationPeriod: { type: Number },
     orbitalPeriod: { type: Number },

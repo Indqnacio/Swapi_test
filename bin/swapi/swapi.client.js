@@ -1,12 +1,12 @@
+//Este es el que se conecta a la API, si es bastante importante
 const axios = require("axios");
-
 const SWAPI_BASE = "https://swapi.info/api";
 
 // trae todos los datos de la coleccion que le pasemos
 const getAllPages = async (data) => {
   if (!data) throw new Error('No hay informacion, no se continuara');
  const allPages = [];
-  let next = `${SWAPI_BASE}/${resource}/`;
+  let next = `${SWAPI_BASE}/${data}/`;
 
   try {
     while (next) {
@@ -26,7 +26,7 @@ const getAllPages = async (data) => {
       }
     }
   } catch (err) {
-    console.error(`Error descargando ${resource} desde SWAPI:`, err.message || err);
+    console.error(`Error descargando ${data} desde SWAPI:`, err.message || err);
     throw err;
   }
 

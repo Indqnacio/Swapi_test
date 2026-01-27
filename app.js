@@ -8,12 +8,7 @@ const app = express();
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocumentation = require('./swagger.json')
 
-const { seedPlanets } = require("./bin/swapi/swapi.seed");
 
-
-(async () => {
-  await seedPlanets();
-})();
 
 //el contentType que llegue no lo filtrara
 app.use(express.json());

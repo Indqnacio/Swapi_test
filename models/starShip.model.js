@@ -9,7 +9,7 @@ const starShipSchema = new Schema(
     size: { type: Number },
     passangers: { type: Number },
     maxAtmosphericSpeed: { type: Number },
-    hyperdrive: { type: String },
+    hyperdrive: { type: Number },
     MGLT: { type: Number },
     weightCapacity: { type: Number }, //? como se muestra en kilos
 

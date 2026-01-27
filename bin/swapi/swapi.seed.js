@@ -20,7 +20,7 @@ const seedPlanets = async () => {
     const count = await Planet.countDocuments();
 
     if (count > 0) {
-      console.log("la colecion planetas ya tiene informacion");
+      console.log("planetas ya tiene informacion");
       return;
     }
 
@@ -46,8 +46,8 @@ const seedSpecies = async () => {
   try {
     const count = await Species.countDocuments();
     if (count > 0)
-      return console.log("la colecion planetas ya tiene informacion");
-    console.log("Importando species");
+      return console.log("species ya tiene informacion");
+    console.log("importando species");
     const items = await getAllPages("species");
     if (!Array.isArray(items) || items.length === 0)
       return console.log("No se obtuvieron species");
@@ -65,7 +65,7 @@ const seedFilms = async () => {
   try {
     const count = await Film.countDocuments();
     if (count > 0) {
-      console.log("la colecion peliculas ya tiene informacion");
+      console.log("peliculas ya tiene informacion");
       return;
     }
 
@@ -85,7 +85,7 @@ const seedVehicle = async () => {
   try {
     const count = await Vehicle.countDocuments();
     if (count > 0)
-      return console.log("la colecion vehiculos ya tiene informacion");
+      return console.log("vehiculos ya tiene informacion");
     console.log("importando vehiculos desde SWAP");
     const items = await getAllPages("vehicles");
     if (!Array.isArray(items) || items.length === 0)
@@ -103,7 +103,7 @@ const seedStarships = async () => {
     const count = await Starship.countDocuments();
     if (count > 0)
       return console.log(
-        "coleccion starships con informacion (no se importará)",
+        "starships ya tiene informacion",
       );
     console.log("Importando starships desde SWAPI");
     const items = await getAllPages("starships");
@@ -122,7 +122,7 @@ const seedCharacters = async () => {
     const count = await Character.countDocuments();
     if (count > 0)
       return console.log(
-        "coleccion personajes con informacion (no se importará)",
+        "personajes ya tiene informacion",
       );
     console.log("importando personajes desde SWAPI");
 
@@ -169,7 +169,7 @@ const seedAll = async () => {
 const resolveRelations = async () => {
   const swapi = await getAllPages("people");
 
-  for (const data of swapiPeople) {
+  for (const data of swapi) {
     // buscamos nuestro character por la URL original
     const chr = await Character.findOne({ swapiUrl: data.url });
     if (!chr) continue;
