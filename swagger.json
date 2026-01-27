@@ -359,13 +359,13 @@
       },
       "post": {
         "tags": [
-          "Species"
+          "Characters"
         ],
-        "summary": "Crear una especie",
+        "summary": "Crear un personaje desde 10000",
         "description": "",
         "responses": {
           "201": {
-            "description": "Especie creada"
+            "description": "Especie creada correctamente"
           },
           "409": {
             "description": "Conflict"
@@ -373,7 +373,8 @@
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "requestBody": {}
       }
     },
     "/species/{id}": {
@@ -727,6 +728,10 @@
         "requestBody": {}
       },
       "put": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Editar un personaje (reemplazo completo)",
         "description": "",
         "parameters": [
           {
@@ -752,6 +757,10 @@
         }
       },
       "delete": {
+        "tags": [
+          "Characters"
+        ],
+        "summary": "Eliminar Personaje",
         "description": "",
         "parameters": [
           {
@@ -802,7 +811,7 @@
         "tags": [
           "Characters"
         ],
-        "summary": "Crear un personaje desde 0",
+        "summary": "Crear un personaje desde 10000",
         "description": "",
         "responses": {
           "201": {
@@ -814,8 +823,7 @@
           "500": {
             "description": "Internal Server Error"
           }
-        },
-        "requestBody": {}
+        }
       }
     },
     "/select": {

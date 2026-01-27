@@ -8,7 +8,7 @@ const app = express();
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocumentation = require('./swagger.json')
 
-const { seedPlanets } = require("./bin/swapí/swapi.seed");
+const { seedPlanets } = require("./bin/swapi/swapi.seed");
 
 
 (async () => {

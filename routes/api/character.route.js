@@ -63,13 +63,14 @@ router.post(
   "/",
   /**
    * #swagger.tags = ['Characters']
-   * #swagger.summary = 'Crear un personaje desde 0'
-   * #swagger.requestBody = {
-   *   required: true,
-   *   content: {
-   *     "application/json": {
-   *       schema: { $ref: "#/components/schemas/Specie" }
-   *     }
+   * #swagger.summary = 'Crear un personaje desde 10000'
+   * #swagger.parameters['body'] = {
+   *     in: 'body',
+         description: 'Datos del usuario',
+   *   schema: {
+        $name: 'Juan',
+        $age: 30
+    }
    *   }
    * }
    * #swagger.responses[201] = {
@@ -78,8 +79,43 @@ router.post(
    */
   characterCtrl.postCharacter,
 );
-router.put("/:id", characterCtrl.editCharacter);
-router.delete("/:id", characterCtrl.deleteCharacter);
+router.put(
+  "/:id",
+  /**
+   * #swagger.tags = ['Characters']
+   * #swagger.summary = 'Editar un personaje (reemplazo completo)'
+   * #swagger.parameters['id'] = {
+   *   in: 'path',
+   *   required: true,
+   *   schema: { type: 'string' }
+   * }
+   * #swagger.parameters['body'] = {
+   *   in: 'body',
+   *   required: true,
+   *   schema: { $ref: '#/definitions/Specie' }
+   * }
+   * #swagger.responses[200] = {
+   *   description: 'Especie actualizada'
+   * }
+   */
+  characterCtrl.editCharacter,
+);
+router.delete(
+  "/:id",
+  /**
+   * #swagger.tags = ['Characters']
+   * #swagger.summary = 'Eliminar Personaje'
+   * #swagger.parameters['id'] = {
+   *   in: 'path',
+   *   required: true,
+   *   schema: { type: 'string' }
+   * }
+   * #swagger.responses[200] = {
+   *   description: 'Personaje eliminado'
+   * }
+   */
+  characterCtrl.deleteCharacter,
+);
 
 //End Point para obtener toda la info de la API "SWAPI"
 //router.get('/swapi/import',characterCtrl.getFilmsFromSWAPI)
