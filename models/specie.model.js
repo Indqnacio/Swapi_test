@@ -20,6 +20,7 @@ const specieSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Planet",
     },
+    swapiHomeworld : {type:String, index:true},
     swapiUrl: { type: String, index: true },
   },
   {

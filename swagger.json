@@ -5,7 +5,7 @@
     "description": "API de Star Wars",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "localhost:3000/api",
   "servers": [
     {
       "url": "http://localhost:3000/api"

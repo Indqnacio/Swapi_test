@@ -3,7 +3,7 @@ const Starship = require("../../models/starship.model");
 const Vehicle = require("../../models/vehicle.model");
 const Species = require("../../models/specie.model");
 const Planet = require("../../models/planet.model");
-const {getAllPages} = require("./swapi.client");
+const { getAllPages } = require("./swapi.client");
 const Film = require("../../models/film.model");
 
 const {
@@ -24,8 +24,6 @@ const seedPlanets = async () => {
       return;
     }
 
-    console.log("importando planets desde SWAPI");
-
     // getAllPages descarga todas las páginas del recurso 'planets'
     const planets = await getAllPages("planets");
 
@@ -45,10 +43,7 @@ const seedPlanets = async () => {
 const seedSpecies = async () => {
   try {
     const count = await Species.countDocuments();
-    if (count > 0)
-      return console.log("species ya tiene informacion");
-    console.log("importando species");
-
+    if (count > 0) return console.log("species ya tiene informacion");
     const species = await getAllPages("species");
 
     if (!Array.isArray(species) || species.length === 0)
@@ -56,68 +51,10 @@ const seedSpecies = async () => {
     // No filtramos por classification no todos lo tienen
     // probare filtrar por nombre es mejor
     const normalized = species.map(mapSpecie).filter((s) => s.name);
-    await Species.insertMany(
-[
-  {
-    name: 'Human',
-    classification: 'mammal',
-    designation: 'sentient',
-    averageHeight: 180,
-    averageLifeSpan: 120,
-    eyeColor: [ 'brown', 'blue', 'green', 'hazel', 'grey', 'amber' ],
-    hairColor: [ 'blonde', 'brown', 'black', 'red' ],
-    skinColor: [ 'caucasian', 'black', 'asian', 'hispanic' ],
-    language: 'Galactic Basic',
-    homeworld: 'https://swapi.info/api/planets/9',
-    swapiUrl: 'https://swapi.info/api/species/1'
-  },
-  {
-    name: 'Droid',
-    classification: 'artificial',
-    designation: 'sentient',
-    averageHeight: null,
-    averageLifeSpan: null,
-    eyeColor: [],
-    hairColor: [],
-    skinColor: [],
-    language: 'n/a',
-    homeworld: null,
-    swapiUrl: 'https://swapi.info/api/species/2'
-  },
-  {
-    name: 'Wookie',
-    classification: 'mammal',
-    designation: 'sentient',
-    averageHeight: 210,
-    averageLifeSpan: 400,
-    eyeColor: [ 'blue', 'green', 'yellow', 'brown', 'golden', 'red' ],
-    hairColor: [ 'black', 'brown' ],
-    skinColor: [ 'gray' ],
-    language: 'Shyriiwook',
-    homeworld: 'https://swapi.info/api/planets/14',
-    swapiUrl: 'https://swapi.info/api/species/3'
-  },
-  {
-    name: 'Rodian',
-    classification: 'sentient',
-    designation: 'reptilian',
-    averageHeight: 170,
-    averageLifeSpan: null,
-    eyeColor: [ 'black' ],
-    hairColor: [],
-    skinColor: [ 'green', 'blue' ],
-    language: 'Galatic Basic',
-    homeworld: 'https://swapi.info/api/planets/23',
-    swapiUrl: 'https://swapi.info/api/species/4'
-  }
-]
 
-
-    )
-    //await Species.insertMany(normalized, { ordered: false });
+    await Species.insertMany(normalized, { ordered: false });
+    //console.log(typeof normalized)
     console.log("Species importadas:", normalized.length);
-    console.log(typeof normalized)
-    //console.log("Estas son las especies que se obtuvieron: ", normalized)
   } catch (error) {
     console.error("Error durante seedSpecies:", error.message || error);
   }
@@ -127,11 +64,9 @@ const seedFilms = async () => {
   try {
     const count = await Film.countDocuments();
     if (count > 0) {
-      console.log("peliculas ya tiene informacion");
       return;
     }
 
-    console.log("importando peliculas desde SWAPI");
     const films = await getAllPages("films");
     if (!Array.isArray(films) || films.length === 0)
       return console.log("No se obtuvieron informacion");
@@ -147,9 +82,8 @@ const seedFilms = async () => {
 const seedVehicle = async () => {
   try {
     const count = await Vehicle.countDocuments();
-    if (count > 0)
-      return console.log("vehiculos ya tiene informacion");
-    console.log("importando vehiculos desde SWAP");
+    if (count > 0) return console.log("vehiculos ya tiene informacion");
+
     const items = await getAllPages("vehicles");
     if (!Array.isArray(items) || items.length === 0)
       return console.log("No se obtuvieron vehicles");
@@ -164,11 +98,8 @@ const seedVehicle = async () => {
 const seedStarships = async () => {
   try {
     const count = await Starship.countDocuments();
-    if (count > 0)
-      return console.log(
-        "starships ya tiene informacion",
-      );
-    console.log("Importando starships desde SWAPI");
+    if (count > 0) return console.log("starships ya tiene informacion");
+
     const items = await getAllPages("starships");
     if (!Array.isArray(items) || items.length === 0)
       return console.log("No se obtuvieron starships");
@@ -183,11 +114,7 @@ const seedStarships = async () => {
 const seedCharacters = async () => {
   try {
     const count = await Character.countDocuments();
-    if (count > 0)
-      return console.log(
-        "personajes ya tiene informacion",
-      );
-    console.log("importando personajes desde SWAPI");
+    if (count > 0) return console.log("personajes ya tiene informacion");
 
     const items = await getAllPages("people");
     if (!Array.isArray(items) || items.length === 0)
@@ -220,9 +147,10 @@ const seedAll = async () => {
       );
     }
   });
-
+//podriamos llamarlas desde los metods seeds
   try {
     await resolveRelations();
+    await resolveSpeciesRelations();
   } catch (err) {
     console.error("Error en resolveRelations:", err.message || err);
   }
@@ -233,14 +161,13 @@ const resolveRelations = async () => {
   const allCharacters = await getAllPages("people");
 
   for (const data of allCharacters) {
-    // buscamos nuestro character por la URL original
+    // buscamos nuestro personaje por la URL
     const chr = await Character.findOne({ swapiUrl: data.url });
     if (!chr) continue;
 
     const updates = {};
 
     if (data.homeworld) {
-      console.log(data.homeworld + " Aqui tenemos el homeworld por si sirve de algo");
       const i = await Planet.findOne({ swapiUrl: data.homeworld });
       if (i) updates.homeworld = i._id;
     }
@@ -282,6 +209,35 @@ const resolveRelations = async () => {
     }
     if (Object.keys(updates).length) {
       await Character.updateOne({ _id: chr._id }, { $set: updates });
+    }
+  }
+};
+
+//* */
+// Resuelve solo las relaciones de `Species.homeworld` usando `swapiHomeworld`.
+// Mantenerlo separado para no mezclar la lógica con `resolveRelations()` de personajes.
+const resolveSpeciesRelations = async () => {
+  debugger;
+  // Buscamos todas las species que tengan swapiHomeworld definido
+  const speciesHome = await Species.find({
+    swapiUrl: { $exists: true, $ne: null },
+  });
+
+  for (const obj of speciesHome) {
+    try {
+      const planet = await Planet.findOne({ swapiUrl: obj.swapiHomeworld });
+      if (planet) {
+        await Species.updateOne(
+          { _id: obj._id },
+          { $set: { homeworld: planet._id } },
+        );
+      } else {
+        console.log(
+          `No se encontro el planeta de la especie ${obj.name}: ${obj.swapiHomeworld}`,
+        );
+      }
+    } catch (err) {
+      console.error(`Error en ${obj.name}:`, err.message || err);
     }
   }
 };
