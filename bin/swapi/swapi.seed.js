@@ -123,6 +123,7 @@ const seedCharacters = async () => {
       return console.log("No se obtuvieron personajes");
     const normalized = items.map(mapCharacter).filter((c) => c.name);
     await Characters.insertMany(normalized, { ordered: false });
+    countCharacter++;
     console.log("personajes importados:", normalized.length);
   } catch (error) {
     console.error("Error durante seedCharacters:", error.message || error);
@@ -151,8 +152,8 @@ const seedAll = async () => {
   });
   try {
     //? con esto evitamos que si ya teniamos info en la BD ejecute esto
-    if (countCharacter > 0) await resolveSpeciesRelations();
-    if (countSpecie > 0) await resolveRelations();
+    if (countCharacter > 0) await resolveRelations();
+    if (countSpecie > 0) await  resolveSpeciesRelations();
   } catch (err) {
     console.error("Error en resolveRelations:", err.message || err);
   }
