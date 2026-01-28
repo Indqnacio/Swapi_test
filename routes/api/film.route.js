@@ -11,7 +11,4 @@ router.put('/:id',filmCtrl.editFilm);
 router.delete('/:id',filmCtrl.deleteFilm);
 
 
-//End Point para obtener toda la info de la API "SWAPI"
-router.get('/swapi/import',filmCtrl.getFilmsFromSWAPI)
-
 module.exports = router;

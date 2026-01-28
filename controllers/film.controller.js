@@ -121,12 +121,3 @@ exports.deleteFilm = async (req, res) => {
     });
   }
 };
-
-exports.getFilmsFromSWAPI = async (req, res) => {
-  try {
-    const film = await Film.findById(req.params.id);
-    res.json(film);
-  } catch (err) {
-    res.status(404).json({ error: "Film no encontrado" });
-  }
-};

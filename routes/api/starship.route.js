@@ -10,8 +10,4 @@ router.post('/',starShipController.postStarShip);
 router.put('/:id',starShipController.editStarShip);
 router.delete('/:id',starShipController.deleteStarShip);
 
-
-//End Point para obtener toda la info de la API "SWAPI"
-//router.get('/swapi/import',starShipController.getStarShipsFromSWAPI)
-
 module.exports = router;

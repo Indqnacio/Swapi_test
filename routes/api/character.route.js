@@ -117,7 +117,4 @@ router.delete(
   characterCtrl.deleteCharacter,
 );
 
-//End Point para obtener toda la info de la API "SWAPI"
-//router.get('/swapi/import',characterCtrl.getFilmsFromSWAPI)
-
 module.exports = router;

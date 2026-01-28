@@ -94,7 +94,4 @@ router.delete("/:id",
    */
     planetController.deleteFilm);
 
-//End Point para obtener toda la info de la API "SWAPI"
-router.get("/swapi/import", planetController.getPlanetsFromSWAPI);
-
 module.exports = router;

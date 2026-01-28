@@ -48,14 +48,16 @@ const seedSpecies = async () => {
     if (count > 0)
       return console.log("species ya tiene informacion");
     console.log("importando species");
-    const items = await getAllPages("species");
-    if (!Array.isArray(items) || items.length === 0)
+    const species = await getAllPages("species");
+    
+    if (!Array.isArray(species) || species.length === 0)
       return console.log("No se obtuvieron species");
     // No filtramos por classification no todos lo tienen
     // probare filtrar por nombre es mejor
-    const normalized = items.map(mapSpecie).filter((s) => s.name);
+    const normalized = species.map(mapSpecie).filter((s) => s.name);
     await Species.insertMany(normalized, { ordered: false });
     console.log("Species importadas:", normalized.length);
+    console.log("Estas son las especies que se obtuvieron: ", normalized)
   } catch (error) {
     console.error("Error durante seedSpecies:", error.message || error);
   }

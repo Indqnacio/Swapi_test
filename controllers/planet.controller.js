@@ -99,17 +99,6 @@ exports.deleteFilm = async (req, res) => {
   }
 };
 
-//!ESTE NO SE COMO SE CONECTARA CON LA API TODAVIA POR QUE TIENE
-//! QUE PROCESAR LA INFO
-exports.getPlanetsFromSWAPI = async (req, res) => {
-  try {
-    const planet = await Planet.findById(req.params.id);
-    res.json(planet);
-  } catch (err) {
-    res.status(404).json({ error: typeModule + "Film no encontrado" });
-  }
-};
-
 /** EXAMPLE
  * {
  *  "name":"Tatooine",
