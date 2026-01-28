@@ -1,14 +1,11 @@
 const Vehicle = require("../models/vehicle.model");
-const allowedFields = require("../config/vehicle.allowFields.js");
-const pick = require("../scripts/picks.js");
 
 const typeModule = "Vehicle";
 const limitPage = 10;
 
 exports.postVehicles = async (req, res) => {
   try {
-    const cleanBody = pick(req.body, allowedFields);
-    const newVehicle = await Vehicle.create(cleanBody);
+    const newVehicle = await Vehicle.create(req.body);
     res.status(201).json(newVehicle);
   } catch (error) {
     res.status(500).json({
@@ -22,11 +19,10 @@ exports.postVehicles = async (req, res) => {
 };
 
 exports.editVehicle = async (req, res) => {
-  const cleanBody = pick(req.body, allowedFields);
   try {
     const vehicleEdited = await Vehicle.findByIdAndUpdate(
       req.params.id,
-      cleanBody,
+      req.body,
       {
         new: true,
         runValidators: true,

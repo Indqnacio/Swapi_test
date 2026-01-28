@@ -1,15 +1,12 @@
 //imports
-const pick = require("../scripts/picks.js");
 const StarShip = require("../models/starship.model");
-const allowedFields = require("../config/starship.allowFields.js");
 //const locales
 const typeModule = "StarShip";
 const limitPage = 10;
 
 exports.postStarShip = async (req, res) => {
   try {
-    const cleanBody = pick(req.body, allowedFields);
-    const newStarShip = await StarShip.create(cleanBody);
+    const newStarShip = await StarShip.create(req.body);
     res.status(201).json(newStarShip);
   } catch (error) {
     if (error.code === 11000) {
@@ -30,11 +27,10 @@ exports.postStarShip = async (req, res) => {
 };
 
 exports.editStarShip = async (req, res) => {
-  const cleanBody = pick(req.body, allowedFields);
   try {
     const starShipEdited = await StarShip.findByIdAndUpdate(
       req.params.id,
-      cleanBody,
+      req.body,
       {
         new: true,
         runValidators: true,

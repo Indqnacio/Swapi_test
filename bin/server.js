@@ -7,9 +7,9 @@ const app = require("../app");
 const { seedAll } = require("./swapi/swapi.seed");
 
 const port = process.env.PORT || 3000;
-
+const nameDatabase = process.env.NAMEBD
 mongoose
-  .connect("mongodb://127.0.0.1:27017/swapiTest2")
+  .connect("mongodb://127.0.0.1:27017/"+ nameDatabase)
   .then(async () => {
     console.log("MongoDB conectado");
 

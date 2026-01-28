@@ -3,8 +3,6 @@
 //*page
 //*body
 const Film = require("../models/film.model");
-const allowedFields = require("../config/film.allowFields.js");
-const pick = require("../scripts/picks.js");
 
 const typeModule = "Film";
 const limitPage = 10;
@@ -59,8 +57,7 @@ exports.getFilmPage = async (req, res) => {
 exports.postFilm = async (req, res) => {
   try {
     //indicando que columnas se deben recibir
-    const cleanBody = pick(req.body, allowedFields);
-    const newFilm = await Film.create(cleanBody);
+    const newFilm = await Film.create(req.body);
     res.status(201).json(newFilm);
   } catch (error) {
     //!por si ya existe un dato repetido
@@ -77,9 +74,8 @@ exports.postFilm = async (req, res) => {
 };
 
 exports.editFilm = async (req, res) => {
-  const cleanBody = pick(req.body, allowedFields);
   try {
-    const film = await Film.findByIdAndUpdate(req.params.id, cleanBody, {
+    const film = await Film.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });

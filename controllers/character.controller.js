@@ -1,7 +1,4 @@
 const Character = require("../models/character.model");
-const allowedFields = require("../config/character.allowFields.js");
-const pick = require("../scripts/picks.js");
-
 const typeModule = "Personaje";
 const limitPage = 10;
 
@@ -18,8 +15,7 @@ const limitPage = 10;
 
 exports.postCharacter = async (req, res) => {
   try {
-    const cleanBody = pick(req.body, allowedFields);
-    const newCharacter = await Character.create(cleanBody);
+    const newCharacter = await Character.create(req.body);
     res.status(201).json(newCharacter);
   } catch (error) {
     //Se esta metiendo informacion repetida
@@ -41,10 +37,9 @@ exports.postCharacter = async (req, res) => {
 
 exports.editCharacter = async (req, res) => {
   try {
-    const cleanBody = pick(req.body, allowedFields);
     const characterEdited = await Character.findByIdAndUpdate(
       req.params.id,
-      cleanBody,
+      req.body,
       {
         new: true,
         runValidators: true,

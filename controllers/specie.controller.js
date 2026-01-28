@@ -1,8 +1,7 @@
 //la ruta del model
 const Specie = require("../models/specie.model");
 const Homeworld = require("../models/planet.model.js")
-const allowedFields = require("../config/specie.allowFields.js");
-const pick = require("../scripts/picks.js");
+
 
 //solo lo usamos para ponerlo en texto
 const typeModule = "Specie";
@@ -11,8 +10,7 @@ const limitPage = 30;
 
 exports.postSpecie = async (req, res) => {
   try {
-    const cleanBody = pick(req.body, allowedFields);
-    const newSpecie = await Specie.create(cleanBody);
+    const newSpecie = await Specie.create(req.body);
     res.status(201).json(newSpecie);
   } catch (error) {
     
@@ -34,10 +32,9 @@ exports.postSpecie = async (req, res) => {
 
 exports.editSpecie = async (req, res) => {
   try {
-    const cleanBody = pick(req.body, allowedFields);
     const specieEdited = await Specie.findByIdAndUpdate(
       req.params.id,
-      cleanBody,
+      req.body,
       {
         new: true,
         runValidators: true,

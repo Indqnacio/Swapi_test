@@ -1,11 +1,3 @@
-const Character = require("../../models/character.model");
-const Starship = require("../../models/starship.model");
-const Vehicle = require("../../models/vehicle.model");
-const Species = require("../../models/specie.model");
-const Planet = require("../../models/planet.model");
-const { getAllPages } = require("./swapi.client");
-const Film = require("../../models/film.model");
-
 const {
   mapPlanet,
   mapFilm,
@@ -14,6 +6,15 @@ const {
   mapStarship,
   mapCharacter,
 } = require("./swapi.mappers");
+const Characters = require("../../models/character.model");
+const Starship = require("../../models/starship.model");
+const Vehicle = require("../../models/vehicle.model");
+const Species = require("../../models/specie.model");
+const Planet = require("../../models/planet.model");
+const { getAllPages } = require("./swapi.client");
+const Film = require("../../models/film.model");
+var countCharacter = 0;
+var countSpecie = 0;
 
 const seedPlanets = async () => {
   try {
@@ -53,6 +54,7 @@ const seedSpecies = async () => {
     const normalized = species.map(mapSpecie).filter((s) => s.name);
 
     await Species.insertMany(normalized, { ordered: false });
+    countSpecie++;
     //console.log(typeof normalized)
     console.log("Species importadas:", normalized.length);
   } catch (error) {
@@ -113,14 +115,14 @@ const seedStarships = async () => {
 
 const seedCharacters = async () => {
   try {
-    const count = await Character.countDocuments();
+    const count = await Characters.countDocuments();
     if (count > 0) return console.log("personajes ya tiene informacion");
 
     const items = await getAllPages("people");
     if (!Array.isArray(items) || items.length === 0)
       return console.log("No se obtuvieron personajes");
     const normalized = items.map(mapCharacter).filter((c) => c.name);
-    await Character.insertMany(normalized, { ordered: false });
+    await Characters.insertMany(normalized, { ordered: false });
     console.log("personajes importados:", normalized.length);
   } catch (error) {
     console.error("Error durante seedCharacters:", error.message || error);
@@ -147,22 +149,23 @@ const seedAll = async () => {
       );
     }
   });
-//podriamos llamarlas desde los metods seeds
   try {
-    await resolveRelations();
-    await resolveSpeciesRelations();
+    //? con esto evitamos que si ya teniamos info en la BD ejecute esto
+    if (countCharacter > 0) await resolveSpeciesRelations();
+    if (countSpecie > 0) await resolveRelations();
   } catch (err) {
     console.error("Error en resolveRelations:", err.message || err);
   }
 };
 
 //Esto es para el endpoint de character
+//tal vez lo tenga que refactorizar, por que tengo que hacer una segunda busqueda
 const resolveRelations = async () => {
   const allCharacters = await getAllPages("people");
 
   for (const data of allCharacters) {
     // buscamos nuestro personaje por la URL
-    const chr = await Character.findOne({ swapiUrl: data.url });
+    const chr = await Characters.findOne({ swapiUrl: data.url });
     if (!chr) continue;
 
     const updates = {};
@@ -208,14 +211,11 @@ const resolveRelations = async () => {
       updates.vehicles = vehIds;
     }
     if (Object.keys(updates).length) {
-      await Character.updateOne({ _id: chr._id }, { $set: updates });
+      await Characters.updateOne({ _id: chr._id }, { $set: updates });
     }
   }
 };
 
-//* */
-// Resuelve solo las relaciones de `Species.homeworld` usando `swapiHomeworld`.
-// Mantenerlo separado para no mezclar la lógica con `resolveRelations()` de personajes.
 const resolveSpeciesRelations = async () => {
   debugger;
   // Buscamos todas las species que tengan swapiHomeworld definido

@@ -66,10 +66,9 @@ exports.postPlanet = async (req, res) => {
 
 exports.editPlanet = async (req, res) => {
   try {
-    const { createdAt, updatedAt, __v, ...cleanBody } = req.body;
     const planetEdited = await Planet.findByIdAndUpdate(
       req.params.id,
-      cleanBody,
+      req.body,
       {
         new: true,
         runValidators: true,
