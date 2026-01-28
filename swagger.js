@@ -20,11 +20,10 @@ const doc = {
     description: "API de Star Wars",
   },
 
-  host: "localhost:3000",
-  basePath: "/api",
-  schemes: ["http"],
-  consumes: ["application/json"],
-  produces: ["application/json"],
+  servers: [
+    { url: "http://localhost:3000/api" },
+  ],
+
   tags: [
     { name: "Species", description: "Informacion relevante de las especies" },
     {
@@ -36,8 +35,9 @@ const doc = {
     { name: "Starships", description: "Informacion relevante de las naves" },
     { name: "Vehicles", description: "Informacion relevante de los vehiculos" },
   ],
-  definitions: {
-    Specie: {
+  components: {
+    schemas: {
+      Specie: {
       type: "object",
       required: ["name", "classification"],
       properties: {
@@ -67,9 +67,9 @@ const doc = {
           example: "664d8f8f8f8f8f8f8f8f8f8f",
         },
       },
-    },
+      },
 
-    Character: {
+      Character: {
       type: "object",
       required: ["name"],
       properties: {
@@ -98,9 +98,9 @@ const doc = {
         starships: { type: "string" },
         vehicles: { type: "string" },
       },
-    },
+      },
 
-    Planet: {
+      Planet: {
       type: "object",
       required: ["name", "diameter"],
       properties: {
@@ -119,8 +119,9 @@ const doc = {
         },
         waterSurfacePer: { type: "number", example: 20 },
       },
-    },
-    Film: {
+      },
+
+      Film: {
       type: "object",
       required: ["title", "director", "productor"],
       properties: {
@@ -130,7 +131,7 @@ const doc = {
       },
     },
 
-    Starship: {
+      Starship: {
       type: "object",
       required: ["name", "model"],
       properties: {
@@ -145,9 +146,9 @@ const doc = {
         weightCapacity: { type: "number", example: 100000 },
         consumables: { type: "number", example: 730 },
       },
-    },
+      },
 
-    Vehicle: {
+      Vehicle: {
       type: "object",
       required: ["name", "model"],
       properties: {
@@ -160,11 +161,15 @@ const doc = {
         weightCapacity: { type: "number", example: 200 },
         consumables: { type: "number", example: 30 },
       },
+      },
     },
   },
 };
 
+// Copia los schemas a `definitions` para que swagger-autogen/Swagger 2.0 los reconozca
+doc.definitions = doc.components.schemas;
+
 swaggerAutogen(outputFile, endPointsFiles, doc).then(() => {
-  // Generado el swagger.json, arrancamos el servidor para que swagger.json exista
-  require("./bin/server");
+  // Generado el swagger.json. No arrancamos el servidor aquí para evitar conflictos de puerto.
+  console.log('swagger.json generado');
 });
