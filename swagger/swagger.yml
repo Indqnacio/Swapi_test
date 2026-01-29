@@ -1,0 +1,407 @@
+openapi: 3.0.0
+
+info:
+  title: Starwars Data Base
+  description: API de Star Wars
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+
+tags:
+  - name: Characters
+    description: Endpoints de los personajes con sus tipos de datos
+  - name: Species
+    description: Endpoints de las especies con sus tipos de datos
+  - name: Planets
+    description: Endpoints de los planetas con sus tipos de datos
+
+components:
+  schemas:
+
+    Character:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Anakin Skywalker
+        birthDay:
+          type: string
+          example: 19BBY
+        gender:
+          type: string
+          example: male
+        mass:
+          type: number
+          example: 77
+        eyeColor:
+          type: array
+          items:
+            type: string
+          example: [blue]
+        hairColor:
+          type: array
+          items:
+            type: string
+          example: [blond]
+        skinColor:
+          type: array
+          items:
+            type: string
+          example: [fair]
+        homeworld:
+          type: string
+          example: 664d8f8f8f8f8f8f8f8f8f8f
+        films:
+          type: array
+          items:
+            type: string
+        species:
+          type: array
+          items:
+            type: string
+        starships:
+          type: array
+          items:
+            type: string
+        vehicles:
+          type: array
+          items:
+            type: string
+
+    Specie:
+      type: object
+      required:
+        - name
+        - classification
+      properties:
+        name:
+          type: string
+          example: Wookiee
+        classification:
+          type: string
+          example: mammal
+        designation:
+          type: string
+          example: sentient
+        averageHeight:
+          type: number
+          example: 210
+        averageLifeSpan:
+          type: number
+          example: 400
+        eyeColor:
+          type: array
+          items:
+            type: string
+          example: [blue, green]
+        hairColor:
+          type: array
+          items:
+            type: string
+          example: [brown]
+        skinColor:
+          type: array
+          items:
+            type: string
+          example: [gray]
+        language:
+          type: string
+          example: Shyriiwook
+        homeworld:
+          type: string
+          example: 664d8f8f8f8f8f8f8f8f8f8f
+     
+    Planet:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Tatooine
+
+        diameter:
+          type: number
+          example: 10465
+          description: Diametro en km. -1 indica desconocido
+
+        rotationPeriod:
+          type: number
+          example: 23
+
+        orbitalPeriod:
+          type: number
+          example: 304
+
+        gravity:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: number
+                example: 1
+              description:
+                type: string
+                example: standard
+        population:
+          type: number
+          example: 200000
+
+        climate:
+          type: array
+          items:
+            type: string
+          example: [arid]
+
+        terrain:
+          type: array
+          items:
+            type: string
+          example: [desert]
+
+        waterSurfacePer:
+          type: number
+          example: 1
+
+
+paths:
+
+  /planets:
+    get:
+      tags: [Planets]
+      summary: Obtener planetas paginados (10 por pagina)
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        200:
+          description: Lista de planetas
+
+    post:
+      tags: [Planets]
+      summary: Crear un nuevo planeta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Planet'
+      responses:
+        201:
+          description: Planeta creado correctamente
+
+  /planets/select:
+    get:
+      tags: [Planets]
+      summary: Obtener planetas para select (id y nombre)
+      responses:
+        200:
+          description: Lista simplificada de planetas
+
+  /planets/{id}:
+    get:
+      tags: [Planets]
+      summary: Obtener planeta por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Planeta encontrado
+        404:
+          description: Planeta no encontrado
+
+    put:
+      tags: [Planets]
+      summary: Modificar un planeta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Planet'
+      responses:
+        200:
+          description: Planeta actualizado correctamente
+
+    delete:
+      tags: [Planets]
+      summary: Eliminar un planeta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Planeta eliminado correctamente
+
+  /species:
+    get:
+      tags: [Species]
+      summary: Listar especies paginadas
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        200:
+          description: Lista de especies
+
+    post:
+      tags: [Species]
+      summary: Crear una especie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Specie'
+      responses:
+        201:
+          description: Especie creada
+
+  /species/{id}:
+    get:
+      tags: [Species]
+      summary: Obtener especie por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Especie encontrada
+        404:
+          description: Especie no encontrada
+
+    put:
+      tags: [Species]
+      summary: Editar especie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Specie'
+      responses:
+        200:
+          description: Especie actualizada
+
+    delete:
+      tags: [Species]
+      summary: Eliminar especie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Especie eliminada
+
+  /characters:
+    get:
+      tags: [Characters]
+      summary: Listar personajes paginados
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        200:
+          description: Lista de personajes
+
+  /characters/select:
+    get:
+      tags: [Characters]
+      summary: Obtener personajes para select (id y nombre)
+      responses:
+        200:
+          description: Lista simplificada
+
+    post:
+      tags: [Characters]
+      summary: Crear un personaje
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+      responses:
+        201:
+          description: Personaje creado
+          
+  /characters/{id}:
+    get:
+      tags: [Characters]
+      summary: Obtener personaje por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Personaje encontrado
+
+    put:
+      tags: [Characters]
+      summary: Editar personaje
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+      responses:
+        200:
+          description: Personaje actualizado
+
+    delete:
+      tags: [Characters]
+      summary: Eliminar personaje
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Personaje eliminado

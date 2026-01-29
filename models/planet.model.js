@@ -29,6 +29,7 @@ const planetSchema = new Schema(
       transform: (_, response) => {
         delete response.createdAt;
         delete response.updatedAt;
+        delete response.swapiUrl;
         delete response.__v;
       },
     },

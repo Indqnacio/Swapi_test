@@ -2,17 +2,6 @@ const Character = require("../models/character.model");
 const typeModule = "Personaje";
 const limitPage = 10;
 
-  /*
-  #swagger.requestBody = {
-    required: true,
-    content: {
-      "application/json": {
-        schema: { $ref: "#/components/schemas/Character" }
-      }
-    }
-  }
-*/
-
 exports.postCharacter = async (req, res) => {
   try {
     const newCharacter = await Character.create(req.body);

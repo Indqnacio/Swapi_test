@@ -1,4 +1,5 @@
-const swaggerAutogen = require("swagger-autogen")();
+//const swaggerAutogen = require("swagger-autogen")();
+const swaggerJsdoc= require("swagger-jsdoc") //swaggerJsdoc from 'swagger-jsdoc';
 require("dotenv").config();
 
 const outputFile = "./swagger.json";
@@ -11,6 +12,28 @@ const endPointsFiles = [
   "./routes/api/starship.route.js",
   "./routes/api/vehicles.route.js",
 ];
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Starwars API",
+      version: "1.0.0",
+      description: "API for managing Jedi",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000/api",
+      },
+    ],
+  },
+  apis: ["./swagger/swagger.yml"],
+};
+
+module.exports = swaggerJsdoc(options);
+/*
+
+
 
 const doc = {
   swagger: "2.0",
@@ -165,7 +188,6 @@ const doc = {
     },
   },
 };
-
 // Copia los schemas a `definitions` para que swagger-autogen/Swagger 2.0 los reconozca
 doc.definitions = doc.components.schemas;
 
@@ -173,3 +195,4 @@ swaggerAutogen(outputFile, endPointsFiles, doc).then(() => {
   // Generado el swagger.json. No arrancamos el servidor aquí para evitar conflictos de puerto.
   console.log('swagger.json generado');
 });
+*/

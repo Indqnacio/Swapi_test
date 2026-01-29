@@ -19,7 +19,8 @@
     "mongoose": "^8.21.0",
     "mongoose-to-swagger": "^1.5.1",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "yaml": "^2.8.2"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
