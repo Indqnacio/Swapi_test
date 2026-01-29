@@ -1,5 +1,6 @@
-//Este es el que se conecta a la API, si es bastante importante
-const SWAPI_BASE = "https://swapi.info/api";
+//! Este es el que se conecta a la API, si es bastante importante
+//! Lo ideal seria tenerla en el .env pero por efectos practicas si la pondre aqui
+const SWAPI_BASE = process.env.SWAPIURL || "https://swapi.info/api";
 const axios = require("axios");
 
 // trae todos los datos de la coleccion que le pasemos para no repetir codigo, es mejor que sea modular

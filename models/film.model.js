@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const filmSchema = new Schema(
   {
-    //name: { type: String, required: true, maxlenght:15, enum: ['ibarra','fernandez','gonzales'] },
     title: { type: String, required: true },
     director: { type: String, required: true },
     productor: [{ type: String, required: true }],

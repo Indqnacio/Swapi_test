@@ -13,7 +13,6 @@ exports.postCharacter = async (req, res) => {
         error: "El personaje ya existe",
       });
     }
-
     res.status(500).json({
       error:
         "Ha ocurrido un error al insertar el nuevo " +

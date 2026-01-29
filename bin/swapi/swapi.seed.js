@@ -41,7 +41,7 @@ const getPlanets = async () => {
   }
 };
 
-const seedSp2ecies = async () => {
+const getSpecies = async () => {
   try {
     const count = await Species.countDocuments();
     if (count > 0) return console.log("species ya tiene informacion");
@@ -62,7 +62,7 @@ const seedSp2ecies = async () => {
   }
 };
 
-const seedFilms = async () => {
+const getFilms = async () => {
   try {
     const count = await Film.countDocuments();
     if (count > 0) {
@@ -81,7 +81,7 @@ const seedFilms = async () => {
   }
 };
 
-const seedVehicle = async () => {
+const getVehicle = async () => {
   try {
     const count = await Vehicle.countDocuments();
     if (count > 0) return console.log("vehiculos ya tiene informacion");
@@ -97,7 +97,7 @@ const seedVehicle = async () => {
   }
 };
 
-const seedStarships = async () => {
+const getStarships = async () => {
   try {
     const count = await Starship.countDocuments();
     if (count > 0) return console.log("starships ya tiene informacion");
@@ -113,7 +113,7 @@ const seedStarships = async () => {
   }
 };
 
-const seedCharacters = async () => {
+const getCharacters = async () => {
   try {
     const count = await Characters.countDocuments();
     if (count > 0) return console.log("personajes ya tiene informacion");
@@ -134,11 +134,11 @@ const seedCharacters = async () => {
 const seedAll = async () => {
   const data = [
     getPlanets(),
-    seedFilms(),
-    seedSpecies(),
-    seedVehicle(),
-    seedStarships(),
-    seedCharacters(),
+    getFilms(),
+    getSpecies(),
+    getVehicle(),
+    getStarships(),
+    getCharacters(),
   ];
 
   const results = await Promise.allSettled(data);
@@ -244,10 +244,10 @@ const resolveSpeciesRelations = async () => {
 };
 
 module.exports = {
-  seedPlanets: getPlanets,
-  seedFilms,
-  seedSpecies,
-  seedStarships,
-  seedCharacters,
+  getPlanets,
+  getFilms,
+  getSpecies,
+  getStarships,
+  getCharacters,
   seedAll,
 };

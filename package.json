@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/server",
-    "dev": "nodemon ./bin/server",
+    "dev": "nodemon --ext js,json,yml,yaml ./bin/server",
     "test": "jest "
   },
   "keywords": [],

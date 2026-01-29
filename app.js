@@ -1,16 +1,10 @@
-/*
-me falta entender al 100%
-pero este redirecciona a las rutas
-*/
+//? libs para documentacion
+const swaggerDocumentation = require('./swagger/swagger.js')
+const swaggerUI = require('swagger-ui-express');
+//? libs basicas
 const express = require('express');
 const app = express();
 
-const swaggerUI = require('swagger-ui-express');
-const swaggerDocumentation = require('./swagger/swagger.js')
-
-
-//C:\Users\PC\Documents\Practica-React-Js\swapiTest\swagger\swagger.js
-//el contentType que llegue no lo filtrara
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
