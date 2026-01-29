@@ -1,3 +1,10 @@
+const Characters = require("../../models/character.model");
+const Starship = require("../../models/starship.model");
+const Vehicle = require("../../models/vehicle.model");
+const Species = require("../../models/specie.model");
+const Planet = require("../../models/planet.model");
+const { getAllPages } = require("./swapi.client");
+const Film = require("../../models/film.model");
 const {
   mapPlanet,
   mapFilm,
@@ -6,17 +13,10 @@ const {
   mapStarship,
   mapCharacter,
 } = require("./swapi.mappers");
-const Characters = require("../../models/character.model");
-const Starship = require("../../models/starship.model");
-const Vehicle = require("../../models/vehicle.model");
-const Species = require("../../models/specie.model");
-const Planet = require("../../models/planet.model");
-const { getAllPages } = require("./swapi.client");
-const Film = require("../../models/film.model");
 var countCharacter = 0;
 var countSpecie = 0;
 
-const seedPlanets = async () => {
+const getPlanets = async () => {
   try {
     const count = await Planet.countDocuments();
 
@@ -41,7 +41,7 @@ const seedPlanets = async () => {
   }
 };
 
-const seedSpecies = async () => {
+const seedSp2ecies = async () => {
   try {
     const count = await Species.countDocuments();
     if (count > 0) return console.log("species ya tiene informacion");
@@ -133,7 +133,7 @@ const seedCharacters = async () => {
 //! falta ver si falla una coleccion no afectara a las otras
 const seedAll = async () => {
   const data = [
-    seedPlanets(),
+    getPlanets(),
     seedFilms(),
     seedSpecies(),
     seedVehicle(),
@@ -244,7 +244,7 @@ const resolveSpeciesRelations = async () => {
 };
 
 module.exports = {
-  seedPlanets,
+  seedPlanets: getPlanets,
   seedFilms,
   seedSpecies,
   seedStarships,

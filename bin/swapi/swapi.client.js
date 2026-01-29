@@ -2,7 +2,7 @@
 const SWAPI_BASE = "https://swapi.info/api";
 const axios = require("axios");
 
-// trae todos los datos de la coleccion que le pasemos
+// trae todos los datos de la coleccion que le pasemos para no repetir codigo, es mejor que sea modular
 const getAllPages = async (typeData) => {
   if (!typeData) throw new Error('No se especifico el tipo de dato, no se continuara con '+ typeData);
  const allPages = [];
@@ -15,7 +15,6 @@ const getAllPages = async (typeData) => {
       const res = await axios.get(next);
       const data = res.data;
 
-      //falta ver por que realmente es necesario que tengan esos tres puntos las variables 
       if (data && Array.isArray(data.results)) {
         allPages.push(...data.results);
         next = data.next;

@@ -2,19 +2,34 @@ openapi: 3.0.0
 
 info:
   title: Starwars Data Base
-  description: API de Star Wars
+  description:  |-
+   API de Star Wars
+   La informacion viene directamente de la API "Swapi":
+   - [La swapi api](https://swapi.info/)
+   - [EndPoint Personajes](https://swapi.info/people)
+   - [EndPoint Peliculas](https://swapi.info/films)
+   - [EndPoint Planetas](https://swapi.info/planets)
+   - [EndPoint Especies](https://swapi.info/species)
+   - [EndPoint Vehiculos](https://swapi.info/vehicles)
+   - [EndPoint Naves Espaciales](https://swapi.info/starships)
   version: 1.0.0
 
 servers:
   - url: http://localhost:3000/api
 
 tags:
-  - name: Characters
-    description: Endpoints de los personajes con sus tipos de datos
-  - name: Species
-    description: Endpoints de las especies con sus tipos de datos
-  - name: Planets
+  - name: Personajes
+    description: Endpoints de los personajes mas miticos
+  - name: Especies
+    description: Endpoints de las especies Principales
+  - name: Peliculas
     description: Endpoints de los planetas con sus tipos de datos
+  - name: Naves Espaciales
+    description: Endpoints de las naves galacticas mas importantes de las peliculas
+  - name: Vehiculos
+    description: Endpoints de los Vehiculos mas famosos de star wars
+  - name: Planetas
+    description: Endpoints de los planetas Principales
 
 components:
   schemas:
@@ -167,12 +182,98 @@ components:
           type: number
           example: 1
 
+    Film:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          example: A New Hope
+        director:
+          type: string
+          example: George Lucas
+        productor:
+          type: array
+          items:
+            type: string
+          example: [Gary Kurtz,Katy Perry]
+
+
+    Starship:
+      type: object
+      required:
+        - name
+        - model
+      properties:
+        name:
+          type: string
+          example: Millennium Falcon
+        model:
+          type: string
+          example: YT-1300 light freighter
+        starshipClass:
+          type: string
+          example: Light freighter
+        size:
+          type: number
+          example: 34
+        passengers:
+          type: number
+          example: 6
+        maxAtmosphericSpeed:
+          type: number
+          example: 1000
+        hyperdrive:
+          type: string
+          example: 0.5
+        MGLT:
+          type: number
+          example: 75
+        weightCapacity:
+          type: number
+          example: 100000
+        consumables:
+          type: number
+          example: 730
+
+    Vehicle:
+      type: object
+      required:
+        - name
+        - model
+      properties:
+        name:
+          type: string
+          example: Speeder
+        model:
+          type: string
+          example: X-34
+        vehicleClass:
+          type: string
+          example: repulsorcraft
+        size:
+          type: number
+          example: 3
+        passengers:
+          type: number
+          example: 1
+        maxAtmosphericSpeed:
+          type: number
+          example: 250
+        weightCapacity:
+          type: number
+          example: 200
+        consumables:
+          type: number
+          example: 30
+
 
 paths:
 
   /planets:
     get:
-      tags: [Planets]
+      tags: [Planetas]
       summary: Obtener planetas paginados (10 por pagina)
       parameters:
         - in: query
@@ -182,9 +283,11 @@ paths:
       responses:
         200:
           description: Lista de planetas
+        500:
+          description: Ha ocurrido un error fatal
 
     post:
-      tags: [Planets]
+      tags: [Planetas]
       summary: Crear un nuevo planeta
       requestBody:
         required: true
@@ -195,18 +298,22 @@ paths:
       responses:
         201:
           description: Planeta creado correctamente
+        500:
+          description: Ha ocurrido un error fatal
 
   /planets/select:
     get:
-      tags: [Planets]
-      summary: Obtener planetas para select (id y nombre)
+      tags: [Planetas]
+      summary: Obtener planetas para el select que estara en el Front End (id y nombre)
       responses:
         200:
           description: Lista simplificada de planetas
+        500:
+          description: Ha ocurrido un error fatal
 
   /planets/{id}:
     get:
-      tags: [Planets]
+      tags: [Planetas]
       summary: Obtener planeta por ID
       parameters:
         - in: path
@@ -219,9 +326,13 @@ paths:
           description: Planeta encontrado
         404:
           description: Planeta no encontrado
+        409:
+          description: Esa informacion esta duplicada
+        500:
+          descritpion: Ha ocurrido un error fata
 
     put:
-      tags: [Planets]
+      tags: [Planetas]
       summary: Modificar un planeta
       parameters:
         - in: path
@@ -238,9 +349,11 @@ paths:
       responses:
         200:
           description: Planeta actualizado correctamente
+        500:
+          description: Ha ocurrido un error fatal
 
     delete:
-      tags: [Planets]
+      tags: [Planetas]
       summary: Eliminar un planeta
       parameters:
         - in: path
@@ -251,10 +364,12 @@ paths:
       responses:
         200:
           description: Planeta eliminado correctamente
+        500:
+          description: Ha ocurrido un error fatal
 
   /species:
     get:
-      tags: [Species]
+      tags: [Especies]
       summary: Listar especies paginadas
       parameters:
         - in: query
@@ -264,10 +379,69 @@ paths:
       responses:
         200:
           description: Lista de especies
+        500:
+          description: Ha ocurrido un error fatal
 
     post:
-      tags: [Species]
+      tags: [Especies]
       summary: Crear una especie
+      description: |-
+        **IMPORTANTE:**
+        <strong>Editar </strong> una Especie, pero tomar en cuenta que para poder Crear a una Especie le tienes que pasar esta informacion de relaciones como:
+        <font color="#00ffff">
+        - Planeta de origen</font>
+        
+        Sin embargo es importante tomar en cuenta que no puedes poner simplemente un valor "<font color="#00ffff">String</font>" es necesario pasar un valor "<font color="#00ffff">ObjectId</font>"
+        Por eso mismo yo recomiendo que hagas uso de el Endpoint <font color="#00ffff">[Select]</font> de <font color="#00ffff">"homeworld"</font> y ya con eso poder trabajar.
+        No puedo poner un id fictisio por que debe ser real el id.
+        -
+        **EJEMPLO:**
+        Para explicarme mejor asi se guarda en la base de datos al final del dia el objeto por lo tanto, no se tiene el nombre de los campos de relations
+
+        ```json
+        {
+          "_id": {
+            "$oid": "697a9541469023e5fa7c1d4f"
+          },
+          "name": "Human",
+          "classification": "mammal",
+          "designation": "sentient",
+          "averageHeight": 180,
+          "averageLifeSpan": 120,
+          "eyeColor": [
+            "brown",
+            "blue",
+            "green",
+            "hazel",
+            "grey",
+            "amber"
+          ],
+          "hairColor": [
+            "blonde",
+            "brown",
+            "black",
+            "red"
+          ],
+          "skinColor": [
+            "caucasian",
+            "black",
+            "asian",
+            "hispanic"
+          ],
+          "language": "Galactic Basic",
+          "homeworld": {
+            "$oid": "697a9541469023e5fa7c1ccd"
+          },
+          "swapiHomeworld": "https://swapi.info/api/planets/9",
+          "swapiUrl": "https://swapi.info/api/species/1",
+          "__v": 0,
+          "createdAt": {
+            "$date": "2026-01-28T23:01:21.577Z"
+          },
+          "updatedAt": {
+            "$date": "2026-01-28T23:01:26.106Z"
+          }
+        }
       requestBody:
         required: true
         content:
@@ -277,10 +451,22 @@ paths:
       responses:
         201:
           description: Especie creada
+        500:
+          description: Ha ocurrido un error fatal
+
+  /species/select:
+    get:
+      tags: [Especies]
+      summary: Obtener Especies para el select que estara en el Front End (id y nombre)
+      responses:
+        200:
+          description: Lista simplificada
+        500:
+          description: Ha ocurrido un error fatal
 
   /species/{id}:
     get:
-      tags: [Species]
+      tags: [Especies]
       summary: Obtener especie por ID
       parameters:
         - in: path
@@ -293,9 +479,14 @@ paths:
           description: Especie encontrada
         404:
           description: Especie no encontrada
+        409:
+          description: Esa informacion esta duplicada
+        500:
+          description: Ha ocurrido un error fatal
+          
 
     put:
-      tags: [Species]
+      tags: [Especies]
       summary: Editar especie
       parameters:
         - in: path
@@ -312,9 +503,11 @@ paths:
       responses:
         200:
           description: Especie actualizada
+        500:
+          description: Ha ocurrido un error fatal
 
     delete:
-      tags: [Species]
+      tags: [Especies]
       summary: Eliminar especie
       parameters:
         - in: path
@@ -325,10 +518,12 @@ paths:
       responses:
         200:
           description: Especie eliminada
+        500:
+          description: Ha ocurrido un error fatal
 
   /characters:
     get:
-      tags: [Characters]
+      tags: [Personajes]
       summary: Listar personajes paginados
       parameters:
         - in: query
@@ -338,18 +533,100 @@ paths:
       responses:
         200:
           description: Lista de personajes
+        500:
+          description: Ha ocurrido un error fatal
 
   /characters/select:
     get:
-      tags: [Characters]
-      summary: Obtener personajes para select (id y nombre)
+      tags: [Personajes]
+      summary: Obtener personajes para el select que estara en el Front End (id y nombre)
       responses:
         200:
           description: Lista simplificada
+        500:
+          description: Ha ocurrido un error fatal
 
     post:
-      tags: [Characters]
-      summary: Crear un personaje
+      tags: [Personajes]
+      description: |-
+        **IMPORTANTE:**
+        Agregar un personaje, pero tomar en cuenta que para poder agregar a un personaje le tienes que pasar su informacion de relaciones como:
+        <font color="#00ffff">
+        - Peliculas
+        - Especie 
+        - Planeta de origen
+        - Vehiculos que utiliza
+        - Naves Espaciales que utiliza
+        </font>
+
+        Sin embargo es importante tomar en cuenta que no puedes poner simplemente un valor "<font color="#00ffff">String</font>" es necesario pasar un valor "<font color="#00ffff">ObjectId</font>"
+        Por eso mismo yo recomiendo que hagas uso de el Endpoint Select de las relaciones y ya con eso poder trabajar.
+        No puedo poner un id fictisio por que debe ser real el id. 
+        -
+        **EJEMPLO:**
+        Para explicarme mejor asi se guarda en la base de datos al final del dia el objeto por lo tanto, no se tiene el nombre de los campos de relations
+        ```json
+        {
+          "_id": {
+            "$oid": "697a9541469023e5fa7c1d75"
+          },
+          "name": "Luke Skywalker",
+          "birthDay": "19BBY",
+          "gender": "male",
+          "mass": "77",
+          "height": 172,
+          "hairColor": [
+            "blond"
+          ],
+          "eyeColor": [
+            "blue"
+          ],
+          "skinColor": [
+            "fair"
+          ],
+          "films": [
+            {
+              "$oid": "697a9541469023e5fa7c1c92"
+            },
+            {
+              "$oid": "697a9541469023e5fa7c1c93"
+            },
+            {
+              "$oid": "697a9541469023e5fa7c1c94"
+            },
+            {
+              "$oid": "697a9541469023e5fa7c1c97"
+            }
+          ],
+          "species": [],
+          "starships": [
+            {
+              "$oid": "697a9541469023e5fa7c1c9f"
+            },
+            {
+              "$oid": "697a9541469023e5fa7c1ca4"
+            }
+          ],
+          "vehicles": [
+            {
+              "$oid": "697a9541469023e5fa7c1d2b"
+            },
+            {
+              "$oid": "697a9541469023e5fa7c1d33"
+            }
+          ],
+          "swapiUrl": "https://swapi.info/api/people/1",
+          "__v": 0,
+          "createdAt": {
+            "$date": "2026-01-28T23:01:21.624Z"
+          },
+          "updatedAt": {
+            "$date": "2026-01-28T23:01:21.740Z"
+          },
+          "homeworld": {
+            "$oid": "697a9541469023e5fa7c1cbe"
+          }
+        }
       requestBody:
         required: true
         content:
@@ -359,10 +636,12 @@ paths:
       responses:
         201:
           description: Personaje creado
+        500:
+          description: Ha ocurrido un error fatal
           
   /characters/{id}:
     get:
-      tags: [Characters]
+      tags: [Personajes]
       summary: Obtener personaje por ID
       parameters:
         - in: path
@@ -373,10 +652,29 @@ paths:
       responses:
         200:
           description: Personaje encontrado
+        500:
+          description: Ha ocurrido un error fatal
 
     put:
-      tags: [Characters]
+      tags: [Personajes]
       summary: Editar personaje
+      description: |-
+        **IMPORTANTE:**
+        <strong>Editar </strong> un personaje, pero tomar en cuenta que para poder editar a un personaje le tienes que pasar primero:
+        - <font color="#00ffff">El ID del personaje</font>
+
+        ademas claro de la informacion de relaciones como:
+        <font color="#00ffff">
+        - Peliculas
+        - Especie 
+        - Planeta de origen
+        - Vehiculos que utiliza
+        - Naves Espaciales que utiliza</font>
+
+        Sin embargo es importante tomar en cuenta que no puedes poner simplemente un valor "<font color="#00ffff">String</font>" es necesario pasar un valor "<font color="#00ffff">ObjectId</font>"
+        Por eso mismo yo recomiendo que hagas uso de el Endpoint Select de las relaciones y ya con eso poder trabajar.
+        No puedo poner un id fictisio por que debe ser real el id. 
+      
       parameters:
         - in: path
           name: id
@@ -392,9 +690,11 @@ paths:
       responses:
         200:
           description: Personaje actualizado
+        500:
+          description: Ha ocurrido un error fatal
 
     delete:
-      tags: [Characters]
+      tags: [Personajes]
       summary: Eliminar personaje
       parameters:
         - in: path
@@ -405,3 +705,294 @@ paths:
       responses:
         200:
           description: Personaje eliminado
+        500:
+          description: Ha ocurrido un error fatal
+
+
+  /films:
+    get:
+      tags: [Peliculas]
+      summary: Listar películas paginadas
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        200:
+          description: Lista de películas
+        500:
+          description: Ha ocurrido un error fatal
+
+    post:
+      tags: [Peliculas]
+      summary: Crear una película
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+      responses:
+        201:
+          description: Película creada
+        500:
+          description: Ha ocurrido un error fatal
+
+  /films/select:
+    get:
+      tags: [Peliculas]
+      summary: Obtener películas para el select que estara en el Front End (id y título)
+      responses:
+        200:
+          description: Película actualizada
+        500:
+          description: Ha ocurrido un error fatal 
+
+  /films/{id}:
+    get:
+      tags: [Peliculas]
+      summary: Obtener película por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Película encontrada
+        404:
+          description: Película no encontrada
+        409:
+          description: Esa informacion esta duplicada
+        500:
+          description: Ha ocurrido un error fatal
+
+    put:
+      tags: [Peliculas]
+      summary: Modificar una película
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+      responses:
+        200:
+          description: Película actualizada
+        500:
+          description: Ha ocurrido un error fatal
+
+    delete:
+      tags: [Peliculas]
+      summary: Eliminar película
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Película eliminada
+        500:
+          description: Ha ocurrido un error fatal
+
+  /starships:
+    get:
+      tags: [Naves Espaciales]
+      summary: Listar naves paginadas
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        200:
+          description: Lista de naves
+        500:
+          description: Ha ocurrido un error fatal
+
+    post:
+      tags: [Naves Espaciales]
+      summary: Crear una nave
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Starship'
+      responses:
+        201:
+          description: Nave creada
+        500:
+          description: Ha ocurrido un error fatal
+
+  /starships/select:
+    get:
+      tags: [Naves Espaciales]
+      summary: Obtener naves para el select que estara en el Front End (id y nombre)
+      responses:
+        200:
+          description: Lista simplificada de naves
+        500:
+          description: Ha ocurrido un error fatal
+
+  /starships/{id}:
+    get:
+      tags: [Naves Espaciales]
+      summary: Obtener nave por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Nave encontrada
+        404:
+          description: Nave no encontrada
+        409:
+          description: Esa informacion esta duplicada
+        500:
+          description: Ha ocurrido un error fatal
+
+    put:
+      tags: [Naves Espaciales]
+      summary: Modificar una nave
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Starship'
+      responses:
+        200:
+          description: Nave actualizada
+        500:
+          description: Ha ocurrido un error fatal
+
+    delete:
+      tags: [Naves Espaciales]
+      summary: Eliminar nave
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Nave eliminada
+        500:
+          description: Ha ocurrido un error fatal
+
+  /vehicles:
+    get:
+      tags: [Vehiculos]
+      summary: Listar vehículos paginados
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        200:
+          description: Lista de vehículos
+        500:
+          description: Ha ocurrido un error fatal
+
+    post:
+      tags: [Vehiculos]
+      summary: Crear un vehículo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        201:
+          description: Vehículo creado
+        500:
+          description: Ha ocurrido un error fatal
+
+  /vehicles/select:
+    get:
+      tags: [Vehiculos]
+      summary: Obtener vehículos para el select que estara en el Front End (id y nombre)
+      responses:
+        200:
+          description: Lista simplificada de vehículos
+        500:
+          description: Ha ocurrido un error fatal
+
+  /vehicles/{id}:
+    get:
+      tags: [Vehiculos]
+      summary: Obtener vehículo por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Vehículo encontrado
+        404:
+          description: Vehículo no encontrado
+        409:
+          description: Esa informacion esta duplicada
+        500:
+          description: Ha ocurrido un error fatal
+
+    put:
+      tags: [Vehiculos]
+      summary: Modificar un vehículo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        200:
+          description: Vehículo actualizado
+        500:
+          description: Ha ocurrido un error fatal
+
+    delete:
+      tags: [Vehiculos]
+      summary: Eliminar vehículo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Vehículo eliminado
+        500:
+          description: Ha ocurrido un error fatal
