@@ -1,364 +1,560 @@
-**Al descargar el repositorio ejecutar**
-Con esto tendras las librerias instaladas
--- npm install
+# SWAPI API
 
-**Para empezar a ejecutar el servicio de la API usar**
--- npm run dev
+Sistema backend para gestión de datos de Star Wars: films, planets, species, starships, vehicles y characters.  
+Incluye endpoints RESTful, documentación Swagger y base de datos MongoDB.
 
-**Para ejecutar las pruebas ejecutar**
--- npm test
+## Descripción general
 
-**Si modificas algo del swagger ejecuta esto para que se guarde**
--- node swagger/swagger.js
+Este proyecto ofrece una API para acceder y manipular información del universo Star Wars, incluyendo películas, planetas, especies, naves espaciales, vehículos y personajes.
 
-Estare usando el puerto
--- 27017
+La arquitectura incluye:
 
-**SI QUIERES INGRESAR A LA DOCUMENTACION USA ESTA RUTA**
-Esta ruta te explicara mucho mejor todo el manejo de los EndPoints
-**-- http://localhost:3000/doc/**
+- **Backend (Node.js + Express)**: API RESTful para toda la lógica de negocio y conexión a la base de datos.
+- **Base de datos (MongoDB)**: almacenamiento principal de los registros.
+- **Swagger**: documentación interactiva de los endpoints.
+- **Testing (Jest)**: pruebas unitarias y de integración.
 
-Esta es la URL base del proyecto, todos los endpoints parten desde aqui.
--- {{baseURL}} = http://localhost:3000
+---
 
-La BD se puede llamar como gustes pero debes crear un .env donde especifiques el nombre
--- conectarse a ella con
-\*\*Use swapiTest
-//! debe ser con minusculas
+## Tecnologías utilizadas
 
-luego ejecutar para poder ver los registros:
-db.[COLECCION_A_BUSCAR].find() ej.Films
+- **Node.js** → Entorno de ejecución backend.
+- **Express** → Framework web para manejo de rutas y middleware.
+- **MongoDB** → Base de datos NoSQL para persistencia de datos.
+- **Mongoose** → ODM para modelar los datos de MongoDB.
+- **Swagger** → Documentación de API interactiva.
+- **Jest** → Testing de endpoints.
+- **dotenv** → Configuración de variables de entorno.
 
-**IMPORTANTE**
-Lo recomendable es crear un env donde tener:
--- El nombre de la bd a crear
--- La URL de la API que usaremos
--- El puerto a usar \***\*Pero los tres datos en el codigo lo ponemos como opcional realmente para efectos de evitar la fatiga\*\***
+---
 
+## Instrucciones iniciales
 
-# =========================
-# FILMS ENDPOINT
-# =========================
-### Get for dropdown (select)
+**Al descargar el repositorio ejecutar**  
+Instala las librerías necesarias:
 
-- {{baseURL}}/api/films/select
-  Ejemplo de la respueta
-  [
-  {
-  "_id": "696fbf8547bca7b4814b30f3",
-  "title": "prueba la pelicula"
-  },
-  {
-  "_id": "69725af30a2ddb5f8a75704c",
-  "title": "starwars la venganza recargada y con mas fuerza"
-  },
-  {
-  "_id": "697507dcca10e00b16cf63bb",
-  "title": "starwars la venganza recargada y con mas poder"
-  },
+```bash
+npm install
+```
+
+**Para empezar a ejecutar el servicio de la API**
+
+```bash
+npm run dev
+```
+
+**Para ejecutar las pruebas**
+
+```bash
+npm test
+```
+
+**Si modificas algo del Swagger para que se guarde**
+
+```bash
+node swagger/swagger.js
+```
+
+**Puerto usado**  
+27017
+
+**Documentación Swagger**  
+http://localhost:3000/doc/
+
+**URL base del proyecto**  
+Todos los endpoints parten desde aquí:  
+{{baseURL}} = http://localhost:3000
+
+**Base de datos**  
+Se puede llamar como gustes, pero debes crear un `.env` donde especifiques el nombre:
+
+```bash
+Use swapiTest
+```
+
+Para ver los registros:
+
+```bash
+db.[COLECCION_A_BUSCAR].find()
+```
+
+**IMPORTANTE**  
+Se recomienda crear un `.env` con:
+
+- Nombre de la base de datos
+- URL de la API
+- Puerto a usar
+  > Los tres datos en el código son opcionales para evitar fatiga.
+
+---
+
+# Films Endpoint
+
+### **Get for dropdown (select)**
+
+```bash
+GET {{baseURL}}/api/films/select
+```
+
+```json
+Body:
+[
+  {"_id": "696fbf8547bca7b4814b30f3", "title": "prueba la pelicula"},
+  {"_id": "69725af30a2ddb5f8a75704c", "title": "starwars la venganza recargada y con más fuerza"},
+  {"_id": "697507dcca10e00b16cf63bb", "title": "starwars la venganza recargada y con más poder"}
+]
+```
+
+### Get by page
+
+```bash
+GET {{baseURL}}/api/films?page=1
+```
+
+```json
+Body:
+[
+  {"_id": "696fbf8547bca7b4814b30f3", "director": "Antonio Ibarra", "productor": "Sasha Montenegro", "title": "prueba la pelicula"},
+  {"_id": "69725af30a2ddb5f8a75704c", "title": "starwars la venganza recargada y con más fuerza", "director": "Kevin", "productor": "Ibarra"}
+]
+```
+
+### Get by ID
+
+```bash
+GET {{baseURL}}/api/films/696fbf8547bca7b4814b30f3
+```
+
+POST - Crear Film
+
+```bash
+POST {{baseURL}}/api/films
+```
+
+```json
+Body:
+{
+  "title": "A New Hope",
+  "director": "George Lucas",
+  "productor": [
+    "Gary Kurtz",
+    "Katy Perry"
   ]
+}
+```
 
-### Get by Page
+### PUT - Update Film
 
-- {{baseURL}}/api/films?page=1
-  un get para obtener 10 registros con toda su info
-  [
-  {
-  "_id": "696fbf8547bca7b4814b30f3",
-  "director": "Antonio Ibarra",
-  "productor": "Sasha Montenegro",
-  "title": "prueba la pelicula"
-  },
-  {
-  "_id": "69725af30a2ddb5f8a75704c",
-  "title": "starwars la venganza recargada y con mas fuerza",
-  "director": "Kevin",
-  "productor": "Ibarra"
-  },
-  ...10 objetos mas
+```json
+Body:
+{
+  "title": "A New Hope",
+  "director": "George Lucas",
+  "productor": [
+    "Gary Kurtz",
+    "Katy Perry"
   ]
+}
+```
 
-### Get by Id
+### DELETE - Delete Film
 
-- {{baseURL}}/api/films/696fbf8547bca7b4814b30f3
-  Get para obtener especificamente un registro por su id, pero bastante especifico
+```bash
+DELETE {{baseURL}}/films/{id}
+```
 
-### Post
+# Planets Endpoint
 
-- {{baseURL}}/api/films
-  endpoint para insertar usuarios
-  {
-  "title":"starwars la venganza recargada y con mas poder recargada",
-  "director":"Humberto",
-  "productor":"un random"
-  }
+### GET - Select (Dropdown)
 
-# PUT - Update Film
+```bash
+GET {{baseURL}}/planets/select
+```
 
-PUT {{BASE_URL}}/films/{id}
-BODY:
+### GET - List paginated
+
+```bash
+GET {{baseURL}}/planets?page=1
+```
+
+### GET - By ID
+
+```bash
+GET {{baseURL}}/planets/{id}
+```
+
+### POST - Create Planet
+
+```bash
+POST {{baseURL}}/planets
+```
+
+```json
+Body:
 {
-"title": "A New Hope Updated",
-"director": "George Lucas",
-"productor": ["Gary Kurtz"]
+  "name": "kojimaWorld",
+  "diameter": 999999,
+  "rotationPeriod": 43,
+  "orbitalPeriod": 304,
+  "gravity": [
+    {
+      "value": 3.4,
+      "description": "standard"
+    }
+  ],
+  "population": 66689,
+  "climate": ["snowy"],
+  "terrain": ["arid"],
+  "waterSurfacePer": 1,
 }
 
-# DELETE - Delete Film
+```
 
-DELETE {{BASE_URL}}/films/{id}
+### PUT - Update Planet
 
-# =========================
+```bash
+PUT {{baseURL}}/planets/{id}
+```
 
-# PLANETS ENDPOINT
-
-# =========================
-
-# GET - Select (Dropdown)
-
-GET {{BASE_URL}}/planets/select
-
-# GET - List paginated
-
-GET {{BASE_URL}}/planets?page=1
-
-# GET - By ID
-
-GET {{BASE_URL}}/planets/{id}
-
-# POST - Create Planet
-
-POST {{BASE_URL}}/planets
-BODY:
+```json
+Body:
 {
-"name": "Tatooine",
-"diameter": 10465,
-"rotationPeriod": 23,
-"orbitalPeriod": 304,
-"gravity": [{"value":1,"description":"standard"}],
-"population": 200000,
-"climate": ["arid"],
-"terrain": ["desert"],
-"waterSurfacePer": 1
+    "name": "senku",
+    "diameter": 20000,
+    "rotationPeriod": 23,
+    "orbitalPeriod": 304,
+    "gravity": [
+        {
+            "value": 5,
+            "description": "standard",
+            "_id": "6972853e0214a9d8aeca7c17"
+        }
+    ],
+    "population": 200000,
+    "climate": [
+        "arid"
+    ],
+    "terrain": [
+        "desert"
+    ],
+    "waterSurfacePer": 1
 }
 
-# PUT - Update Planet
+```
 
-PUT {{BASE_URL}}/planets/{id}
-BODY:
+### DELETE - Delete Planet
+
+```bash
+DELETE {{baseURL}}/planets/{id}
+```
+
+# Species Endpoint
+
+### GET - Select
+
+```bash
+GET {{baseURL}}/species/select
+```
+
+### GET - List paginated
+
+```bash
+GET {{baseURL}}/species?page=1
+```
+
+### GET - By ID
+
+```bash
+GET {{baseURL}}/species/{id}
+```
+
+### POST - Create Specie
+
+```bash
+POST {{baseURL}}/species
+```
+
+```json
+Body:
 {
-"name": "Tatooine Updated",
-"diameter": 10500,
-"population": 210000
+    "name": "Tiger",
+    "classification": "carnivore",
+    "designation": "Fast",
+    "averageHeight": 50,
+    "averageLifeSpan": 20,
+    "eyeColor": [
+        "orange"
+    ],
+    "hairColor": [
+        "red",
+        "brown"
+    ],
+    "skinColor": [
+        "blue"
+    ],
+    "language": "tibetian",
+    "homeworld": "697285db0214a9d8aeca7c26"
 }
+```
 
-# DELETE - Delete Planet
+### PUT - Update Specie
 
-DELETE {{BASE_URL}}/planets/{id}
+```bash
+PUT {{baseURL}}/species/{id}
+```
 
-# =========================
-
-# SPECIES ENDPOINT
-
-# =========================
-
-# GET - Select
-
-GET {{BASE_URL}}/species/select
-
-# GET - List paginated
-
-GET {{BASE_URL}}/species?page=1
-
-# GET - By ID
-
-GET {{BASE_URL}}/species/{id}
-
-# POST - Create Specie
-
-POST {{BASE_URL}}/species
-BODY:
+```json
+Body:
 {
-"name": "Wookiee",
-"classification": "mammal",
-"designation": "sentient",
-"averageHeight": 210,
-"averageLifeSpan": 400,
-"eyeColor": ["blue", "green"],
-"hairColor": ["brown"],
-"skinColor": ["gray"],
-"language": "Shyriiwook",
-"homeworld": "OBJECT_ID_PLANET"
+    "name": "Tiger",
+    "classification": "carnivore",
+    "designation": "fastest",
+    "averageHeight": 50,
+    "averageLifeSpan": 20,
+    "eyeColor": [
+        "orange",
+        "black"
+    ],
+    "hairColor": [
+        "orange",
+        "brown"
+    ],
+    "skinColor": [
+        "fair"
+    ],
+    "language": "tibetian",
+    "homeworld": "697285db0214a9d8aeca7c26"
 }
+```
 
-# PUT - Update Specie
+### DELETE - Delete Specie
 
-PUT {{BASE_URL}}/species/{id}
-BODY:
+```bash
+DELETE {{baseURL}}/species/{id}
+```
+
+# Starships Endpoint
+
+###GET - Select
+
+```bash
+GET {{baseURL}}/starships/select
+```
+
+### GET - List paginated
+
+```bash
+GET {{baseURL}}/starships?page=1
+```
+
+### GET - By ID
+
+```bash
+GET {{baseURL}}/starships/{id}
+```
+
+### POST - Create Starship
+
+```bash
+POST {{baseURL}}/starships
+```
+
+```json
+Body:
 {
-"name": "Tiger",
-"classification": "carnivore",
-"designation": "fastest",
-"averageHeight": 50,
-"averageLifeSpan": 20,
-"eyeColor": ["orange","black"],
-"hairColor": ["orange","brown">],
-"skinColor": [
-"fair"
-],
-"language": "tibetian",
-"homeworld": "697285db0214a9d8aeca7c26"
+  "name":"test 1",
+  "model":"model 1",
+  "starshipClass":"single",
+  "size":180,
+  "passangers":10,
+  "maxAtmosphericSpeed":300,
+  "hyperdrive":2.2,
+  "MGLT":120,
+  "weightCapacity":2000,
+  "consumables": 140
 }
+```
 
-# DELETE - Delete Specie
+### PUT - Update Starship
 
-DELETE {{BASE_URL}}/species/{id}
+```bash
+PUT {{baseURL}}/starships/{id}
+```
 
-# =========================
+```json
+Body:
+   {
+        "_id": "6973d624bb237088f2eb5db3",
+        "name": "the starlight la original",
+        "model": "darkstar 3001",
+        "starshipClass": "simple",
+        "size": 180,
+        "passangers": 10,
+        "maxAtmosphericSpeed": 300,
+        "hyperdrive": "2.5",
+        "MGLT": 120,
+        "weightCapacity": 2000,
+        "consumables": 240
+    }
+```
 
-# STARSHIPS ENDPOINT
+### DELETE - Delete Starship
 
-# =========================
+```bash
+DELETE {{baseURL}}/starships/{id}
+```
 
-# GET - Select
+# Vehicles Endpoint
 
-GET {{BASE_URL}}/starships/select
+### GET - Select
 
-# GET - List paginated
+```bash
+GET {{baseURL}}/vehicles/select
+```
 
-GET {{BASE_URL}}/starships?page=1
+### GET - List paginated
 
-# GET - By ID
+```bash
+GET {{baseURL}}/vehicles?page=1
+```
 
-GET {{BASE_URL}}/starships/{id}
+### GET - By ID
 
-# POST - Create Starship
+```bash
+GET {{baseURL}}/vehicles/{id}
+```
 
-POST {{BASE_URL}}/starships
-BODY:
+### POST - Create Vehicle
+
+```bash
+POST {{baseURL}}/vehicles
+```
+
+```json
+Body:
 {
-"name": "Millennium Falcon",
-"model": "YT-1300 light freighter",
-"starshipClass": "Light freighter",
-"size": 34,
-"passengers": 6,
-"maxAtmosphericSpeed": 1000,
-"hyperdrive": "0.5",
-"MGLT": 75,
-"weightCapacity": 100000,
-"consumables": 730
+  "name": "Speeder",
+  "model": "X-34",
+  "vehicleClass": "repulsorcraft",
+  "size": 3,
+  "passengers": 1,
+  "maxAtmosphericSpeed": 250,
+  "weightCapacity": 200,
+  "consumables": 30
 }
+```
 
-# PUT - Update Starship
+### PUT - Update Vehicle
 
-PUT {{BASE_URL}}/starships/{id}
-BODY:
+```bash
+PUT {{baseURL}}/vehicles/{id}
+```
+
+```json
+Body:
 {
-"name": "Millennium Falcon Updated",
-"model": "YT-1300"
+  "name": "Speeder Updated",
+  "model": "X-34"
 }
+```
 
-# DELETE - Delete Starship
+### DELETE - Delete Vehicle
 
-DELETE {{BASE_URL}}/starships/{id}
+```bash
+DELETE {{baseURL}}/vehicles/{id}
+```
 
-# =========================
+# Characters Endpoint
 
-# VEHICLES ENDPOINT
+### GET - List paginated
 
-# =========================
+```bash
+GET {{baseURL}}/characters?page=1
+```
 
-# GET - Select
+### GET - Select
 
-GET {{BASE_URL}}/vehicles/select
+```bash
+GET {{baseURL}}/characters/select
+```
 
-# GET - List paginated
+```json
+[
+    {
+        "_id": "697bafe6b8901ec66fd4fa29",
+        "name": "Luke Skywalker"
+    },
+    {
+        "_id": "697bafe6b8901ec66fd4fa2a",
+        "name": "C-3PO"
+    },....
+]
+```
 
-GET {{BASE_URL}}/vehicles?page=1
+### GET - By ID
 
-# GET - By ID
+```bash
+GET {{baseURL}}/characters/{id}
+```
 
-GET {{BASE_URL}}/vehicles/{id}
+### GET - Search by name
 
-# POST - Create Vehicle
+```bash
+GET {{baseURL}}/characters?name=Luke
+```
 
-POST {{BASE_URL}}/vehicles
-BODY:
+### POST - Create Character
+
+```bash
+POST {{baseURL}}/characters
+```
+
+```json
+Body:
 {
-"name": "Speeder",
-"model": "X-34",
-"vehicleClass": "repulsorcraft",
-"size": 3,
-"passengers": 1,
-"maxAtmosphericSpeed": 250,
-"weightCapacity": 200,
-"consumables": 30
+  "name":"Maria jkwow la Dopplejnager PARA BORRAR LA INFO",
+  "birthDay":"9BBY",
+  "gender":"female",
+  "mass":"197",
+
+  "hairColor":["brown","pink"],
+  "eyeColor":["green","black"],
+  "skinColor":["fair"],
+
+  "homeworld":"697281b3f14d2f2599de8e34",
+  "films":["69725af30a2ddb5f8a75704c","696fbf8547bca7b4814b30f3","69751dd8e5ef5de85e19a257"],
+  "species":"6973b719545b85d0ac5c82b5",
+  "starships":["6973d624bb237088f2eb5db3","697520ade5ef5de85e19a271"],
+  "vehicles": ["6973e0d4663cc606e4a47304","6973e1e1663cc606e4a4730b"],
+  "cost":-1,
+  "infoExtra":"why do the sun come to the other side and let us see what is happening in this days"
 }
+```
 
-# PUT - Update Vehicle
+### PUT - Update Character
 
-PUT {{BASE_URL}}/vehicles/{id}
-BODY:
+```json
+Body:
 {
-"name": "Speeder Updated",
-"model": "X-34"
+  "name":"Maria jkwow la Dopplejnager",
+  "birthDay":"900000BBY",
+  "gender":"female",
+  "mass":"1970000",
+
+  "hairColor":["brown","pink"],
+  "eyeColor":["green","black"],
+  "skinColor":["fair"],
+
+  "homeworld":"697281b3f14d2f2599de8e34",
+  "films":["69725af30a2ddb5f8a75704c","696fbf8547bca7b4814b30f3","69751dd8e5ef5de85e19a257"],
+  "species":"6973b719545b85d0ac5c82b5",
+  "starships":["6973d624bb237088f2eb5db3","697520ade5ef5de85e19a271"],
+  "vehicles": ["6973e0d4663cc606e4a47304","6973e1e1663cc606e4a4730b"]
 }
+```
 
-# DELETE - Delete Vehicle
+### DELETE - Delete Character
 
-DELETE {{BASE_URL}}/vehicles/{id}
-
-# =========================
-
-# CHARACTERS ENDPOINT
-
-# =========================
-
-# GET - List paginated
-
-GET {{BASE_URL}}/characters?page=1
-
-# GET - Select
-
-GET {{BASE_URL}}/characters/select
-
-# GET - By ID
-
-GET {{BASE_URL}}/characters/{id}
-
-# GET - Search by name
-
-GET {{BASE_URL}}/characters?name=Luke
-
-# POST - Create Character
-
-POST {{BASE_URL}}/characters
-BODY:
-{
-"name": "Luke Skywalker",
-"birthDay": "19BBY",
-"gender": "male",
-"mass": 77,
-"height": 172,
-"eyeColor": ["blue"],
-"hairColor": ["blond"],
-"skinColor": ["fair"],
-"homeworld": "OBJECT_ID_PLANET",
-"films": ["OBJECT_ID_FILM"],
-"species": ["OBJECT_ID_SPECIE"],
-"starships": ["OBJECT_ID_STARSHIP"],
-"vehicles": ["OBJECT_ID_VEHICLE"]
-}
-
-# PUT - Update Character
-
-PUT {{BASE_URL}}/characters/{id}
-BODY:
-{
-"name": "Luke Skywalker Updated",
-"mass": 80,
-"height": 175
-}
-
-# DELETE - Delete Character
-
-DELETE {{BASE_URL}}/characters/{id}
+```bash
+DELETE {{baseURL}}/characters/{id}
+```
