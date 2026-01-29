@@ -56,7 +56,9 @@ node swagger/swagger.js
 ```
 
 **Puerto usado**  
+```bash
 27017
+```
 
 **Documentación Swagger**  
 http://localhost:3000/doc/
@@ -87,6 +89,178 @@ Se recomienda crear un `.env` con:
   > Los tres datos en el código son opcionales para evitar fatiga.
 
 ---
+
+# Characters Endpoint
+
+### GET - List paginated
+
+```bash
+GET {{baseURL}}/characters?page=1
+```
+```json
+Body
+[
+    {
+        "_id": "697bafe6b8901ec66fd4fa42",
+        "name": "Ackbar",
+        "birthDay": "41BBY",
+        "gender": "male",
+        "mass": "83",
+        "height": 180,
+        "hairColor": [
+            "none"
+        ],
+        "eyeColor": [
+            "orange"
+        ],
+        "skinColor": [
+            "brown mottle"
+        ],
+        "films": [
+            {
+                "_id": "697bafe6b8901ec66fd4f9fc",
+                "title": "Return of the Jedi"
+            }
+        ],
+        "species": [
+            {
+                "_id": "697bafe6b8901ec66fd4f94d",
+                "name": "Mon Calamari"
+            }
+        ],
+        "starships": [],
+        "vehicles": [],
+        "swapiUrl": "https://swapi.info/api/people/27",
+        "homeworld": {
+            "_id": "697bafe6b8901ec66fd4f9a4",
+            "name": "Mon Cala"
+        }
+    },
+    {
+        "_id": "697bafe6b8901ec66fd4fa5e",
+        "name": "Adi Gallia",
+        "birthDay": "unknown",
+        "gender": "female",
+        "mass": "50",
+        "height": 184,
+        "hairColor": [
+            "none"
+        ],
+        "eyeColor": [
+            "blue"
+        ],
+        "skinColor": [
+            "dark"
+        ],
+        "films": [
+            {
+                "_id": "697bafe6b8901ec66fd4f9fd",
+                "title": "The Phantom Menace"
+            },
+            {
+                "_id": "697bafe6b8901ec66fd4f9ff",
+                "title": "Revenge of the Sith"
+            }
+        ],
+        "species": [
+            {
+                "_id": "697bafe6b8901ec66fd4f95c",
+                "name": "Tholothian"
+            }
+        ],
+        "starships": [],
+        "vehicles": [],
+        "swapiUrl": "https://swapi.info/api/people/55",
+        "homeworld": {
+            "_id": "697bafe6b8901ec66fd4f97b",
+            "name": "Coruscant"
+        }
+    },....
+]
+
+```
+### GET - Select
+
+```bash
+GET {{baseURL}}/characters/select
+```
+
+```json
+Body
+[
+    {
+        "_id": "697bafe6b8901ec66fd4fa29",
+        "name": "Luke Skywalker"
+    },
+    {
+        "_id": "697bafe6b8901ec66fd4fa2a",
+        "name": "C-3PO"
+    },....
+]
+```
+
+### GET - By ID
+
+```bash
+GET {{baseURL}}/characters/{id}
+```
+
+### POST - Create Character
+
+```bash
+POST {{baseURL}}/characters
+```
+
+```json
+Body:
+{
+  "name":"Maria jkwow la Dopplejnager PARA BORRAR LA INFO",
+  "birthDay":"9BBY",
+  "gender":"female",
+  "mass":"197",
+
+  "hairColor":["brown","pink"],
+  "eyeColor":["green","black"],
+  "skinColor":["fair"],
+
+  "homeworld":"697281b3f14d2f2599de8e34",
+  "films":["69725af30a2ddb5f8a75704c","696fbf8547bca7b4814b30f3","69751dd8e5ef5de85e19a257"],
+  "species":"6973b719545b85d0ac5c82b5",
+  "starships":["6973d624bb237088f2eb5db3","697520ade5ef5de85e19a271"],
+  "vehicles": ["6973e0d4663cc606e4a47304","6973e1e1663cc606e4a4730b"],
+}
+```
+
+### PUT - Update Character
+
+```json
+Body:
+{
+  "name":"Maria jkwow la Dopplejnager",
+  "birthDay":"900000BBY",
+  "gender":"female",
+  "mass":"1970000",
+
+  "hairColor":["brown","pink"],
+  "eyeColor":["green","black"],
+  "skinColor":["fair"],
+
+  "homeworld":"697281b3f14d2f2599de8e34",
+  "films":["69725af30a2ddb5f8a75704c","696fbf8547bca7b4814b30f3","69751dd8e5ef5de85e19a257"],
+  "species":"6973b719545b85d0ac5c82b5",
+  "starships":["6973d624bb237088f2eb5db3","697520ade5ef5de85e19a271"],
+  "vehicles": ["6973e0d4663cc606e4a47304","6973e1e1663cc606e4a4730b"]
+}
+```
+
+### DELETE - Delete Character
+
+```bash
+DELETE {{baseURL}}/characters/{id}
+```
+```json
+{"Result Code " : 200}
+```
 
 # Films Endpoint
 
@@ -335,7 +509,7 @@ DELETE {{baseURL}}/species/{id}
 
 # Starships Endpoint
 
-###GET - Select
+### GET - Select
 
 ```bash
 GET {{baseURL}}/starships/select
@@ -412,11 +586,33 @@ DELETE {{baseURL}}/starships/{id}
 GET {{baseURL}}/vehicles/select
 ```
 
+ ```json
+Body:
+[
+    {
+        "_id": "697bafe6b8901ec66fd4fa01",
+        "name": "Sand Crawler"
+    },
+    {
+        "_id": "697bafe6b8901ec66fd4fa02",
+        "name": "T-16 skyhopper"
+    },
+    {
+        "_id": "697bafe6b8901ec66fd4fa03",
+        "name": "X-34 landspeeder"
+    },
+    {
+        "_id": "697bafe6b8901ec66fd4fa04",
+        "name": "TIE/LN starfighter"
+    },....
+]
+````
+
 ### GET - List paginated
 
 ```bash
 GET {{baseURL}}/vehicles?page=1
-```
+````
 
 ### GET - By ID
 
@@ -430,19 +626,27 @@ GET {{baseURL}}/vehicles/{id}
 POST {{baseURL}}/vehicles
 ```
 
-```json
-Body:
-{
-  "name": "Speeder",
-  "model": "X-34",
-  "vehicleClass": "repulsorcraft",
-  "size": 3,
-  "passengers": 1,
-  "maxAtmosphericSpeed": 250,
-  "weightCapacity": 200,
-  "consumables": 30
-}
-```
+    ```json
+      [
+          {
+              "_id": "697bafe6b8901ec66fd4fa01",
+              "name": "Sand Crawler"
+          },
+          {
+              "_id": "697bafe6b8901ec66fd4fa02",
+              "name": "T-16 skyhopper"
+          },
+          {
+              "_id": "697bafe6b8901ec66fd4fa03",
+              "name": "X-34 landspeeder"
+          },
+          {
+              "_id": "697bafe6b8901ec66fd4fa04",
+              "name": "TIE/LN starfighter"
+          },....
+      ]
+
+    ```
 
 ### PUT - Update Vehicle
 
@@ -462,99 +666,4 @@ Body:
 
 ```bash
 DELETE {{baseURL}}/vehicles/{id}
-```
-
-# Characters Endpoint
-
-### GET - List paginated
-
-```bash
-GET {{baseURL}}/characters?page=1
-```
-
-### GET - Select
-
-```bash
-GET {{baseURL}}/characters/select
-```
-
-```json
-[
-    {
-        "_id": "697bafe6b8901ec66fd4fa29",
-        "name": "Luke Skywalker"
-    },
-    {
-        "_id": "697bafe6b8901ec66fd4fa2a",
-        "name": "C-3PO"
-    },....
-]
-```
-
-### GET - By ID
-
-```bash
-GET {{baseURL}}/characters/{id}
-```
-
-### GET - Search by name
-
-```bash
-GET {{baseURL}}/characters?name=Luke
-```
-
-### POST - Create Character
-
-```bash
-POST {{baseURL}}/characters
-```
-
-```json
-Body:
-{
-  "name":"Maria jkwow la Dopplejnager PARA BORRAR LA INFO",
-  "birthDay":"9BBY",
-  "gender":"female",
-  "mass":"197",
-
-  "hairColor":["brown","pink"],
-  "eyeColor":["green","black"],
-  "skinColor":["fair"],
-
-  "homeworld":"697281b3f14d2f2599de8e34",
-  "films":["69725af30a2ddb5f8a75704c","696fbf8547bca7b4814b30f3","69751dd8e5ef5de85e19a257"],
-  "species":"6973b719545b85d0ac5c82b5",
-  "starships":["6973d624bb237088f2eb5db3","697520ade5ef5de85e19a271"],
-  "vehicles": ["6973e0d4663cc606e4a47304","6973e1e1663cc606e4a4730b"],
-  "cost":-1,
-  "infoExtra":"why do the sun come to the other side and let us see what is happening in this days"
-}
-```
-
-### PUT - Update Character
-
-```json
-Body:
-{
-  "name":"Maria jkwow la Dopplejnager",
-  "birthDay":"900000BBY",
-  "gender":"female",
-  "mass":"1970000",
-
-  "hairColor":["brown","pink"],
-  "eyeColor":["green","black"],
-  "skinColor":["fair"],
-
-  "homeworld":"697281b3f14d2f2599de8e34",
-  "films":["69725af30a2ddb5f8a75704c","696fbf8547bca7b4814b30f3","69751dd8e5ef5de85e19a257"],
-  "species":"6973b719545b85d0ac5c82b5",
-  "starships":["6973d624bb237088f2eb5db3","697520ade5ef5de85e19a271"],
-  "vehicles": ["6973e0d4663cc606e4a47304","6973e1e1663cc606e4a4730b"]
-}
-```
-
-### DELETE - Delete Character
-
-```bash
-DELETE {{baseURL}}/characters/{id}
 ```
