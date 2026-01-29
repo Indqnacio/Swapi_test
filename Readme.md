@@ -336,6 +336,9 @@ Body:
 ```bash
 DELETE {{baseURL}}/films/{id}
 ```
+```json
+{"Result Code " : 200}
+```
 
 # Planets Endpoint
 
@@ -420,6 +423,9 @@ Body:
 
 ```bash
 DELETE {{baseURL}}/planets/{id}
+```
+```json
+{"Result Code " : 200}
 ```
 
 # Species Endpoint
@@ -506,6 +512,9 @@ Body:
 ```bash
 DELETE {{baseURL}}/species/{id}
 ```
+```json
+{"Result Code " : 200}
+```
 
 # Starships Endpoint
 
@@ -576,6 +585,9 @@ Body:
 
 ```bash
 DELETE {{baseURL}}/starships/{id}
+```
+```json
+{"Result Code " : 200}
 ```
 
 # Vehicles Endpoint
@@ -666,4 +678,7 @@ Body:
 
 ```bash
 DELETE {{baseURL}}/vehicles/{id}
+```
+```json
+{"Result Code " : 200}
 ```
