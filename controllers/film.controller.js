@@ -10,7 +10,10 @@ const limitPage = 10;
 exports.getFilmById = async (req, res) => {
   try {
     const film = await Film.findById(req.params.id);
-    res.json(film);
+    if (!film) {
+      return res.status(500).json("Error no se encontro");
+    }
+    res.status(200).json(film);
   } catch (err) {
     res.status(404).json({ error: typeModule + " no encontrado" });
   }
@@ -19,6 +22,9 @@ exports.getFilmById = async (req, res) => {
 exports.getFilmsSelect = async (req, res) => {
   try {
     const film = await Film.find({}, { _id: 1, title: 1 });
+    if (!film) {
+      return res.status(500).json("Error no se encontro");
+    }
     res.json(film);
   } catch (err) {
     res
